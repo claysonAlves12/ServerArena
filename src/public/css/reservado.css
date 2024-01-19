@@ -1,0 +1,220 @@
+body{
+    content: ""; 
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url('../imgs/arenaImagens/Campos 2.jpeg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    z-index: -1;
+}
+
+
+.containerheader {
+    background-color: #004D40;
+    padding: 30px;
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 1.0);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+h1 {
+    color: #EEF093;
+    font-size: 2.5em;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+#usuario {
+    font-size: 2em;
+    color: white;
+    margin-bottom: 10px;
+    text-align: right;
+}
+
+.custom-btn {
+    display: inline-block;
+    padding: 10px 20px;
+    margin: 10px 5px;
+    border-radius: 5px;
+    background-color: #EEF093; /* Cor de fundo dos botões */
+    color: #004D40;
+    text-decoration: none;
+    font-weight: bold;
+    text-align: center;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    box-shadow: 0px 5px 15px rgba(218, 221, 33, 0.199); /* Efeito de sombra */
+}
+
+.custom-btn:hover {
+    color: white;
+    background-color: #10917b; /* Cor de fundo ao passar o mouse */
+    text-decoration: none;
+    transform: translateY(-3px); /* Efeito de levantar o botão ao passar o mouse */
+}
+
+
+
+/* Media Queries para dispositivos de tela pequena (como celulares) */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 2em; /* Ajuste o tamanho da fonte conforme necessário */
+    }
+
+    #usuario {
+        font-size: 1.5em; /* Ajuste o tamanho da fonte conforme necessário */
+    }
+    .custom-btn {
+        padding: 8px 16px; /* Ajuste o padding para dispositivos móveis */
+        font-size: 0.9em; /* Ajuste o tamanho da fonte para dispositivos móveis */
+    }
+}
+
+/* Conteúdo Principal */
+.content-Principal {
+    padding-left: 200px;
+    padding-right: 200px;
+}
+
+/* Container de Data */
+.containerData {
+    padding: 20px 13px;
+    border-radius: 20px;
+}
+
+/* Filtro Container */
+#filtro-container {
+    background-color: #004D40;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    color: white;
+}
+
+/* Botões de Filtro */
+.filtro-button {
+    margin-left: 10px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #EEF093;
+    color: #004D40;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.filtro-button:hover {
+    color: white;
+    background-color: #10917b;
+}
+
+#dataFiltro {
+    font-size: 1.5em; /* Ajuste o tamanho da fonte conforme necessário */
+    height: 40px; /* Ajuste a altura conforme necessário */
+    width: 200px; /* Defina uma largura para o elemento */
+    padding: 5px; /* Ajuste o padding conforme necessário */
+}
+
+/* Media Queries para dispositivos de tela pequena (como celulares) */
+@media (max-width: 768px) {
+    .content-Principal {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+
+    .containerData {
+        padding: 10px 8px;
+        border-radius: 15px;
+    }
+
+    #filtro-container {
+        padding: 15px;
+        border-radius: 5px;
+    }
+
+    .filtro-button {
+        background-color: #004D40;
+        color: white;
+        margin-left: 15px;
+        padding: 8px 16px;
+        font-size: 0.9em;
+    }
+
+    #dataFiltro {
+        font-size: 1em; /* Ajuste o tamanho da fonte para dispositivos móveis */
+        height: 35px; /* Ajuste a altura para dispositivos móveis */
+        width: 150px; /* Ajuste a largura para dispositivos móveis */
+        padding: 4px; /* Ajuste o padding para dispositivos móveis */
+    }
+
+}
+/* Estilos para o Formulário */
+.containerFormularios {
+    background-color: #004D40;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.containerFormularios ul {
+    list-style-type: none;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.containerFormularios li {
+    background-color: rgb(255, 255, 255);
+    padding: 20px;
+    color: black;
+    flex: 0 0 45%;
+    margin: 10px;
+    border: 1px solid #000;
+    border-radius: 10px;
+    font-size: large;
+}
+
+.containerFormularios li strong {
+    font-weight: bolder;
+    color: black;
+}
+
+.containerFormularios button {
+    background-color: #10917b;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.containerFormularios button:hover {
+    color: white;
+    background-color: red;
+}
+
+/* Media Queries para dispositivos de tela pequena (como celulares) */
+@media (max-width: 768px) {
+    .containerFormularios {
+        padding: 15px;
+        background-color: white;
+    }
+
+    .containerFormularios li {
+        flex: 0 0 100%; /* Faz com que os itens ocupem toda a largura */
+        margin: 5px 0; /* Ajusta a margem verticalmente */
+    }
+
+    .containerFormularios button {
+        padding: 8px 12px;
+        font-size: 0.9em;
+    }
+    h1{
+        color: #004D40;
+    }
+}

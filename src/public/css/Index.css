@@ -1,0 +1,1110 @@
+.fundo {
+    position: relative; 
+    z-index: 0; 
+}
+
+
+.fundo::before {
+    content: ""; 
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url('../imgs/ImagensPrincipais/BannerArenaBravoCompleto.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    opacity: 0.5; 
+    z-index: -1;
+}
+
+header {
+    width: 100%;
+    display: flex;
+    background-color: #004D40;
+    justify-content: space-between;
+    padding: 1rem;
+    z-index: 1000;
+    transition: background-color 0.3s ease;
+    position: sticky;  
+    top: 0;           
+}
+
+#logoArenaBravo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-right: 20px;
+    padding-left: 20px;
+}
+
+#logoArenaBravo img {
+    width: 60px;
+    margin-right: 10px;
+}
+
+#logoArenaBravo span {
+    font-size: large;
+    font-family: 'Arial Black', sans-serif;
+    color: #EEF093;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease-in-out;
+    margin-right: 20px;
+}
+
+#logoArenaBravo span:hover {
+    transform: scale(1.1);
+}
+
+.nav-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    gap: 20px;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 5px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.banner {
+    position: relative;
+    margin-bottom: 30px;
+    z-index: 1; 
+}
+
+.image-container {
+    position: relative;
+    width: 100%;
+    max-width: 100%; 
+    padding-bottom: 20%; 
+    z-index: 0;  
+}
+
+.image-container img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    max-width: 100%; 
+    height: auto; 
+    opacity: 0;
+    transition: opacity 1.0s ease-in-out;
+}
+
+.image-container img:first-child {
+    opacity: 1;
+}
+
+.navigation-dots {
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+}
+
+.dot {
+    display: inline-block;
+    height: 15px;
+    width: 15px;
+    background-color: #717171;
+    border-radius: 50%;
+    margin: 0 5px;
+    cursor: pointer;
+}
+
+.dot.active {
+    background-color: #EEF08F;
+}
+
+.dot:active, .dot:hover {
+    background-color: #EEF08F;
+}
+
+.container{
+    background-color: #004D40; 
+    color: white;
+    padding: 20px; 
+    border-radius: 10px; 
+   
+}
+
+/*texto titulo do video*/
+.custom-h5 {
+    font-size: 2rem;
+    font-weight: bold;
+    text-align: center;
+    color: #EEF093;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    position: relative;
+    width: 550px;
+    margin-left: 50px;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.9); 
+    padding: 10px; 
+}
+
+.video-wrapper {
+    position: relative;
+    width: 550px;
+    margin-left: 30px;
+    margin-bottom: 20px;
+    overflow: hidden;
+    border-radius: 15px;
+    box-shadow: 0 0 35px rgba(238, 255, 0, 0.8);
+    transition: transform 0.5s ease-in-out, box-shadow 0.5s ease-in-out;
+    background: linear-gradient(135deg, #FFD700, #EEF093);
+}
+
+.video-wrapper:hover {
+    transform: scale(1.05); 
+    box-shadow: 0 0 50px rgba(238, 255, 0, 1); 
+}
+
+.video-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, #EEF093, rgba(0, 0, 0, 0.7)); 
+    border-radius: 15px;
+    pointer-events: none;
+    transition: background 0.5s ease-in-out; 
+}
+
+.video-wrapper iframe {
+    width: 100%;
+    height: 100%;
+    border: 3px solid #FFD700;
+    border-radius: 15px;
+    transition: border 0.5s ease-in-out;
+}
+
+
+.video-wrapper:hover iframe {
+    border-color: #FFD700;
+}
+
+
+.video-wrapper iframe {
+    transition: border 0.5s ease-in-out;
+}
+
+/*Texto de como reservar */
+.TextReserva-h5 {
+    font-size: 2rem;
+    font-weight: bold;
+    text-align: center;
+    color: #EEF093;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    position: relative;
+    width: 550px;
+    margin-left: 50px;
+    margin-bottom: 2px;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.9); 
+    padding: 10px; 
+}
+
+.textReserva {
+    margin-left: 30px;
+    width: 550px;
+    font-family: 'Roboto', sans-serif; 
+    font-size: 18px;
+    line-height: 1.8;
+    color: #2c3e50; 
+    background-color: #ecf0f1; 
+    padding: 30px; 
+    border-radius: 15px; 
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); 
+    text-align: justify; 
+    border-left: 8px solid #EEF093; 
+    transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease; 
+    cursor: pointer; 
+    position: relative; 
+}
+
+.textReserva:hover {
+    color: #004D40;
+    background-color: #EEF093;
+    transform: scale(1.02); 
+    box-shadow: 0 12px 20px rgba(0, 0, 0, 0.3); 
+    transition: background-color 0.6s ease, transform 0.3s ease, box-shadow 0.3s ease;
+    border-left: 8px solid #ffffff; 
+}
+
+.textReserva::after {
+    content: "✔"; 
+    font-size: 24px;
+    color: #06910d; 
+}
+
+/* Formulario */
+#formulario {
+    margin-top: 20px;
+    max-height: auto;
+    max-width: 400px;
+    margin-left: 100px;
+    padding: 30px;
+    color: black;
+    background-color: #f4f4f4;
+    border-radius: 15px;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.9);
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease; 
+}
+
+#formulario:hover {
+    transform: scale(1.02);
+    box-shadow: 0 0 40px rgba(0, 0, 0, 0.9); 
+}
+
+.custom-h5-reservar {
+    background-color: #004D40;
+    padding: 20px;
+    color: #EEF093;
+    border-radius: 25px; 
+    text-align: center;
+    font-size: 2rem; /* Aumenta ainda mais o tamanho da fonte */
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.9);
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    color: #004D40;
+}
+
+input,
+select {
+    width: 100%;
+    padding: 16px;
+    box-sizing: border-box;
+    border: 3px solid #004D40;
+    border-radius: 12px; 
+    transition: border-color 0.3s ease;
+}
+
+input[type="submit"] {
+    background-color: #004D40;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 1.7rem; /* Aumenta ainda mais o tamanho da fonte */
+    font-weight: bold;
+}
+
+input[type="submit"]:hover {
+    background-color: #002E27;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Horarios Disponiveis */
+.horariosDisponiveis {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+    background-color: rgb(0, 77, 64); 
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgb(238, 240, 147);
+    max-width: 80%;
+    text-align: center;
+    color: rgb(238, 240, 147);
+}
+
+.center-content {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.horariosDisponiveis h2 {
+    margin-top: 0;
+    font-size: 2em;
+}
+
+.horariosDisponiveis ul {
+    color: white;
+    list-style-type: none;
+    padding: 0;
+}
+
+.horariosDisponiveis ul li {
+    margin: 10px 0;
+    font-size: 1.2em;
+}
+
+.btnFecharHorario {
+    padding: 10px 20px;
+    font-size: 1em;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    color: #004D40; 
+    background-color: #EEF093;
+    transition: background-color 0.3s;
+}
+
+.btnFecharHorario:hover {
+    background-color: rgba(255, 0, 0, 1);
+    color: white;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*status Aberto/Fechado */
+.status-moviment{ 
+    margin-left: 45px;
+    margin-right: 55px;
+    margin-bottom: 10px;
+    transition: transform 0.3s ease;  
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Adiciona sombra */
+}
+
+.status-moviment:hover{
+    transform: translateY(-5px); 
+    
+}
+
+.horario-funcionamento {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    font-weight: bold;
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(45deg, #e6e6e6, #f9f9f9); 
+    color: black; 
+    padding: 15px;
+    border-radius: 0px 0px 12px 12px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1); /* Adiciona sombra */
+}
+
+.horario-funcionamento p {
+    margin: 15px ; 
+    line-height: 1.8;
+}
+
+.horario-funcionamento p strong {
+    color: #226358;
+    text-align: center;
+    font-weight: bolder;  
+}
+
+.status-funcionamento {
+    display: flex;
+    justify-content: center; 
+    font-size: 2rem; 
+    padding: 20px 30px;
+    font-family: 'Roboto', sans-serif;
+    text-transform: uppercase; 
+    font-weight: bold;
+    background-color: #004D40;
+    border-radius: 12px 12px 0px 0px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); /* Adiciona sombra e destaque */
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    position: relative;
+  
+   
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.9); 
+   
+}
+
+.containerDois{
+    background-color: #004D40; 
+    color: white;
+    padding: 10px 25px 30px 10px; 
+    margin-top: 20px;
+    margin-bottom: 45px;
+  
+}
+
+
+#meuCarrossel {
+    width: 80%;
+    margin: 10px 0px 0px 10px;
+}
+
+.mainCarousel {
+    width: 100%;
+    height: 500px;
+    border-radius: 15px;
+    transition: transform 0.3s ease-in-out;
+    position: relative;
+    overflow: hidden;
+}
+
+.carousel-inner {
+    margin-left: 150px;
+    position: relative;
+    border: 1px solid #EEF08F;
+    border-radius: 15px;
+    box-shadow: 0 0 35px rgba(238, 255, 0, 0.8);
+}
+
+.carousel-inner::before {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    content: "Explore o Local";
+    font-weight: bold;
+    font-size: 2rem;
+    text-align: center;
+    color: #eef093;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-shadow: 2px 2px 8px #000000;
+    padding: 20px;
+    pointer-events: none; 
+    opacity: 1;
+    background-color: rgba(0, 0, 0, 0.801); 
+    transform: translate(-50%, -50%) scale(1);
+    transition: background-color 0.3s ease; /* Adiciona uma transição suave para a mudança de cor de fundo */
+} 
+
+#meuCarrossel:hover .carousel-inner::before {
+    content: "";
+    background-color: rgba(0, 0, 255, 0); /* Altere para a cor desejada ao passar o mouse */
+}
+
+#meuCarrossel:hover .mainCarousel {
+    transform: scale(1.05); /* Amplia a imagem ao passar o mouse */
+}
+
+
+.carousel-control-prev,
+.carousel-control-next {
+    background-repeat: no-repeat; 
+    background-position: center center; 
+    background-size: 70%; 
+    position: absolute; 
+    transition: background-size 0.3s; 
+    cursor: pointer; 
+}
+
+.carousel-control-prev:hover,
+.carousel-control-next:hover {
+    background-size: 75%; 
+    transform: scale(1.1);  
+}
+
+.carousel-control-prev {
+   margin-left: 150px;
+    background-image: url('../imgs/bolaPrevious.png'); 
+  
+}
+
+.carousel-control-next {
+    margin-right: -150px;
+    background-image: url('../imgs/bolaPrevious.png'); 
+}
+
+/* Estilizando a imagem dentro do lightbox */
+.fancybox-slide img {
+    max-width: 100%;
+    max-height: 100%;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.8); 
+    border-radius: 10px;
+   
+}
+
+
+.fancybox-inner {
+    padding: 30px;
+    background-color: rgba(0, 77, 64, 0.7); 
+    border-radius: 15px;
+}
+
+/* Adicionando uma borda à volta da imagem ampliada */
+.fancybox-slide {
+    border: 4px solid rgba(238, 240, 143, 0.8);
+    border-radius: 12px; 
+    overflow: hidden;
+}
+
+/* Efeito de sombra ao passar o mouse na área de lightbox */
+.fancybox-inner:hover {
+    box-shadow: 0 0 30px rgba(238, 240, 143, 0.8);
+
+}
+
+/* Transição suave ao passar o mouse na área de lightbox */
+.fancybox-inner:hover {
+    transition: box-shadow 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+
+
+
+
+
+
+
+
+/*Mapa*/
+
+/* Mapa - Estilo Extremamente Chamativo */
+.TituloMapa {
+    background-color: #004D40;
+    padding: 20px;
+    color: #EEF093;
+    border-radius: 25px; 
+    text-align: center;
+    font-size: 2rem; /* Aumenta ainda mais o tamanho da fonte */
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.9);
+    margin-right: 100px;
+}
+
+.maps {
+    position: relative;
+    overflow: hidden;
+    border-radius: 25px;
+    width: 729.5px;
+    margin: 0px 0px 0px 20px;
+    height: 425px;
+    box-shadow: 0px 0px 30px rgba(251, 255, 0, 0.7);
+}
+
+
+
+.maps iframe {
+    border: none;
+    width: 100%;
+    height: 100%;
+    border-radius: 25px; /* Adiciona borda arredondada ao mapa */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+/* Adiciona uma borda colorida ao redor do mapa */
+.maps iframe {
+    transition: border-color 0.3s ease;
+    border: 3px solid #fff;
+}
+
+.maps:hover iframe {
+    border-color: #FFC107; /* Altera a cor da borda ao passar o mouse */
+}
+
+
+/*cookies */
+.cookie-notification {
+    position: fixed; 
+    bottom: 0; 
+    left: 0; 
+    right: 0; 
+    background-color: #f9f9f9; 
+    padding: 15px; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 0 auto; 
+    text-align: center; 
+    z-index: 1000; 
+}
+
+
+.textCookie {
+    display: inline-block; 
+    padding: 10px;
+    margin: 0; 
+    vertical-align: middle;
+    margin-right: 20px; 
+    text-align: left;
+}
+
+#accept-cookies-btn {
+    background-color: #004D40; 
+    border-color: #004D40; 
+    padding: 10px 20px; 
+    border-radius: 5px; 
+    font-weight: bold;
+    color: #EEF093; 
+    transition: background-color 0.3s ease; 
+}
+
+#accept-cookies-btn:hover {
+    background-color: #0da189; 
+    border-color: #0da189; 
+    color: white;
+}
+
+
+footer.bg-dark {
+    background-color: black !important;
+    margin-top: -45px; 
+}
+
+.redesSociais {
+    color: #EEF093;
+    text-align: center;
+    font-size: 1.2rem; 
+    text-transform: uppercase; 
+}
+
+.social-icon img {
+    height: 40px;
+    padding: 2px;
+    margin-bottom: -10px;
+    transition: transform 0.3s ease-in-out; 
+}
+
+.social-icon:hover img {
+    transform: scale(1.1);
+}
+
+
+
+/* Estilo para largura de tela de até 768px (dispositivos móveis) */
+@media only screen and (max-width: 768px) {
+    header {
+        padding: 0.5rem;
+    }
+    #logoArenaBravo img {
+        width: 20px;
+        margin-right: 10px;
+    }
+    #logoArenaBravo  {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    #logoArenaBravo span  {
+        font-size: large;
+        font-weight: bold;
+    }
+
+   /*  nav ul {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    nav ul li a {
+        padding: 8px 12px;
+    } */
+
+    .banner {
+        margin-bottom: 0px;
+    }
+
+    
+.navigation-dots {
+    position: absolute;  
+    bottom: -4px;       
+    left: 50%;         
+    transform: translateX(-50%); 
+    z-index: 2;        
+}
+
+.dot {
+    display: inline-block;
+    height: 10px;
+    width: 10px;
+   
+    border-radius: 50%;
+    margin: 0 5px;
+    cursor: pointer;
+}
+
+.active, .dot:hover {
+    background-color: #717171;
+}
+    
+    .image-container {
+        width: auto; 
+        height: 110px; 
+        overflow: hidden; 
+    }
+  
+    
+    .image-container img { 
+        top: 19px;
+        left: 0;
+        transform: scale(1.5);
+        object-fit: cover; 
+    }
+    
+    .container{
+        border-radius: 0px; 
+
+    }
+
+.custom-h5 {
+    font-size: 1rem;
+    margin-top: -15px;
+    width: 350px;
+    margin-left: 0px;
+    margin-bottom: 10px;
+}
+
+.video-wrapper {
+    width: 350px;
+    margin-left: 0px;
+    margin-bottom: 0px;
+}
+
+.TextReserva-h5 {
+    font-size: 1rem;
+    text-align: center;
+    width: 350px;
+    margin-left: 5px;
+    margin-top: 8px;
+    margin-bottom: 5px;
+}
+.textReserva {
+    margin-left: 0px;
+    width: 350px;
+    font-family: 'Roboto', sans-serif; 
+    font-size: 15px;
+    line-height: 1.5;
+    padding: 20px; 
+}
+
+    #formulario {
+        max-height: 900px;
+        max-width: 400px;
+        margin:25px auto;
+        margin-top: -5px;
+        padding: 20px;
+        box-shadow:none;
+        margin-bottom: 10px;
+    }
+    
+    .custom-h5-reservar{
+        padding: 10px;
+        border-radius: 20px;
+        font-size: 1.5rem;
+    }
+
+    
+    .horariosDisponiveis{
+        padding: 0px;
+    }
+    
+    /* Centraliza o Conteúdo Interno */
+    .center-content {
+        width:300px;
+        padding: 10px;
+       
+    }
+    
+    /* Títulos de Horários Disponíveis */
+    .horariosDisponiveis h2 {
+        font-size: 1rem;
+     
+    }
+    
+    /* Lista de Horários Disponíveis */
+    .horariosDisponiveis ul {
+        font-size: 14px;
+        color: white;
+        list-style-type: none;
+    
+    }
+    
+    .horariosDisponiveis ul li {
+        font-size: 1rem;
+    }
+    
+    /* Botões de Fechar Horário */
+    .btnFecharHorario {
+        font-size: 0.8rem;
+        padding: 4px 10px;
+    
+    }
+    
+
+    .status-moviment{ 
+        width: 400px;
+        margin-left: 15px;
+        margin-right: 12px;
+        margin-bottom: -19px;
+    }
+    
+    .horario-funcionamento {
+        flex-direction: column;
+    }
+    
+    .horario-funcionamento p {
+        margin: 5px ; 
+        line-height: 1.8;
+    }
+    
+    .horario-funcionamento p strong {  
+        font-size: 15px;
+    }
+    
+    .horario-funcionamento p span {  
+        font-size: 15px;
+    }
+
+    .status-funcionamento {
+        font-size: 1rem; 
+    }
+
+
+
+
+    .containerDois{
+        margin-top: 0px;
+        margin-bottom: 0px;
+    }
+    
+    #meuCarrossel {
+        width: 100%;
+        margin-left: -140px;
+        margin-bottom: 0px;
+    }
+    
+    .mainCarousel {
+        width: 100%;
+        height: 300px;
+        margin-right: 500px;
+    }
+    
+    .carousel-inner::before {
+        font-size: 1rem;
+    } 
+    
+    #meuCarrossel:hover .carousel-inner::before {
+        content: "";
+        background-color: rgba(0, 0, 255, 0); /* Altere para a cor desejada ao passar o mouse */
+    }
+    
+    #meuCarrossel:hover .mainCarousel {
+        transform: scale(1.05); /* Amplia a imagem ao passar o mouse */
+    }
+    
+    
+    .carousel-control-prev,
+    .carousel-control-next {
+        background-repeat: no-repeat; 
+        background-position: center center; 
+        background-size: 70%; 
+        position: absolute; 
+        transition: background-size 0.3s; 
+        cursor: pointer; 
+    }
+    
+    .carousel-control-prev:hover,
+    .carousel-control-next:hover {
+        background-size: 75%; 
+        transform: scale(1.1);  
+    }
+    
+    .carousel-control-prev {
+       margin-left: 150px;
+        background-image: url('../imgs/ImagensPrincipais/bolaPrevious.png'); 
+      
+    }
+    
+    .carousel-control-next {
+        margin-right: -150px;
+        background-image: url('../imgs/ImagensPrincipais/bolaPrevious.png'); 
+    }
+
+    .fancybox-inner {
+        max-height: 667px;
+        max-width: 375px;
+        margin: auto;
+    }
+    
+    
+    /* Estilizando a imagem dentro do lightbox */
+    .fancybox-slide img {
+        max-width: 100%;
+        max-height: 100%;
+   
+    }
+    
+    /* Adicionando uma borda à volta da imagem ampliada */
+    .fancybox-slide {
+        border: 4px solid rgba(238, 240, 143, 0.8);
+        border-radius: 12px; 
+        overflow: hidden;
+    }
+    
+    /* Efeito de sombra ao passar o mouse na área de lightbox */
+    .fancybox-inner:hover {
+        box-shadow: 0 0 30px rgba(238, 240, 143, 0.8);
+    
+    }
+    
+    /* Transição suave ao passar o mouse na área de lightbox */
+    .fancybox-inner:hover {
+        transition: box-shadow 0.3s ease-in-out, transform 0.3s ease-in-out;
+    }
+    
+    
+    .TituloMapa {
+        font-size: 1rem; /* Aumenta ainda mais o tamanho da fonte */
+        background-color: rgba(255, 0, 0, 0);
+        margin-right: -15px;
+        margin-top: 1px;
+        margin-bottom: -1px;
+    }
+    
+    .maps {
+        max-width: 340px;
+        max-height: 300px;
+        margin-left: 10px;
+
+        margin-bottom: 30px;
+    }
+     
+    
+    .cookie-notification {
+        padding: 10px; 
+        margin: 0px;
+    }
+
+    .textCookie {
+        display: inline-block; 
+        padding: 10px;
+        margin: 0; 
+        font-size: 14px;
+        margin-right: 0px; 
+    }
+
+    #accept-cookies-btn {
+        padding: 5px 10px;
+        font-size: 16px; 
+    }
+
+    .redesSociais {
+        font-size: 1rem; 
+        text-transform: uppercase; 
+    }
+    
+    .social-icon img {
+        height: 30px;
+        padding: 2px;
+        margin-top: -10px;
+
+    }
+
+}
+
+
+/* Estilo para largura de tela entre 769px e 1024px (tablets e dispositivos maiores) */
+@media only screen and (min-width: 769px) and (max-width: 1024px) {
+    header {
+        padding: 0.75rem;
+    }
+
+    nav ul li a {
+        padding: 9px 14px;
+    }
+}
+
+/* Estilo para largura de tela entre 1025px e 1440px (telas maiores) */
+@media only screen and (min-width: 1025px) and (max-width: 1440px) {
+    header {
+        padding: 1rem;
+    }
+
+    nav ul li a {
+        padding: 10px 15px;
+    }
+}
+
+/* Estilo para largura de tela acima de 1440px (telas muito grandes) */
+@media only screen and (min-width: 1441px) {
+    header {
+        padding: 1.25rem;
+    }
+
+    nav ul li a {
+        padding: 11px 16px;
+    }
+}

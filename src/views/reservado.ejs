@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Horários Reservados</title>
+  <link rel="stylesheet" href="/css/reservado.css"/>
+  <link rel="shortcut icon" href="/imgs/favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <script src="/socket.io/socket.io.js"></script>
+
+</head>
+
+<body>
+
+  <div class="containerheader">
+    <div class="row">
+        <div class="col-12 d-flex flex-column align-items-center">
+            
+          <span id="usuario" class="mb-3">Olá, <%= nomeUsuario %></span> 
+
+          <div class="d-flex justify-content-center"> 
+            <a id="btnTopoHomePage" href="/" class="custom-btn mr-2">HomePage</a>
+            <a id="btnTopoLogin" href="/login" class="custom-btn mr-2">Tela de Login</a>
+            <a id="btnTopoCadastro" href="/cadastro" class="custom-btn">Tela de cadastro</a>
+            <a id="btnTopoProibirHorario" href="/proibir" class="custom-btn">Proibir hórario</a>
+          </div>
+        
+        </div>
+    </div>
+</div>
+
+  <div class="content-Principal">
+    <div class = "containerData">
+      <div class="row mt-3">
+        <div class="col-md-12" id="filtro-container">
+          <h2 style="margin-bottom: 20px;">📅 Filtrar Por Data</h2>
+          <input type="date" id="dataFiltro">
+          <button class="filtro-button" onclick="filtrarPorData()">Filtrar</button>
+          <button class="filtro-button" onclick="resetarFiltro()">Resetar Filtro</button>
+          <button onclick="selecionarTodosFormularios()">Selecionar Todos os Formulários</button>
+          <button onclick="excluirFormulariosSelecionados()">Excluir Formulários Selecionados</button>
+          <button class="filtro-button" onclick="exportarParaExcel()">Exportar para Excel</button>
+        </div>
+      </div>
+    </div>
+
+
+    <div class = "containerFormularios">
+      <h1>Horários reservados</h1>
+      <div class="row">
+        <div class="col-md-12 mx-auto">
+          <ul class="list-unstyled">
+            <% 
+              formularios.sort((a, b) => {
+                const dateA = new Date(a.data);
+                const dateB = new Date(b.data);
+                return dateA - dateB;
+            }); 
+              formularios.sort((a, b) => {
+                const horaAInicial = a.horaInicial.split(':').join('');
+                const horaAFinal = a.horaFinal.split(':').join('');
+                const horaBInicial = b.horaInicial.split(':').join('');
+                const horaBFinal = b.horaFinal.split(':').join('');
+
+                return horaAInicial.localeCompare(horaBInicial) || horaAFinal.localeCompare(horaBFinal);
+            }); 
+
+            formularios.forEach(formulario => { %>
+            <li>
+              <strong>Nome Completo:</strong> <%= formulario.nome %><br>
+              <strong>Email:</strong> <%= formulario.email %><br>
+              <strong>Telefone:</strong> 
+              <% if (formulario && formulario.telefone && formulario.data && formulario.horaInicial && formulario.horaFinal) { %>
+                <a href="https://api.whatsapp.com/send?phone=<%= formulario.telefone %>&text=Ol%C3%A1,%20estou%20passando%20aqui%20para%20confirmar%20o%20hor%C3%A1rio%20no%20dia%20<%= formulario.data.split('-').reverse().join('/') %>%2C%20come%C3%A7ando%20%C3%A0s%20<%= formulario.horaInicial.replace(':', '%3A') %>%20e%20finalizando%20%C3%A0s%20<%= formulario.horaFinal.replace(':', '%3A') %>%2C%20voc%C3%AA%20confirma%20o%20hor%C3%A1rio%3F%20%F0%9F%98%8A
+                " target="_blank">
+                <%= formulario.telefone %>
+                  </a>
+              <% } else { %>
+                Telefone não disponível
+              <% } %>
+              
+              <br>
+              
+              <strong>Tipo de Campo:</strong> <%= formulario.esporte %><br>
+              
+             <!-- Formatar a data  -->
+             <strong>Data:</strong> <%= (() => {
+              var data = new Date(formulario.data);
+              data.setDate(data.getDate() + 1);
+
+              var day = data.getDate();
+              var month = data.getMonth() + 1; 
+              var year = data.getFullYear();
+            
+              // Função para adicionar um "0" à frente de números menores que 10
+              const addLeadingZero = (num) => {
+                  return num < 10 ? '0' + num : num;
+              };
+            
+              return `${addLeadingZero(day)}/${addLeadingZero(month)}/${year}`;
+              })() %><br>
+            
+              <strong>Hora Inicial:</strong> <%= formulario.horaInicial %><br>
+              <strong>Hora Final:</strong> <%= formulario.horaFinal %><br><br>
+              
+
+              <div class="checkbox-container">
+                <strong>Status:</strong>
+                <input type="checkbox" id="estadoCheckbox-<%= formulario.id %>" data-form-id="<%= formulario.id %>">
+                <label for="estadoCheckbox-<%= formulario.id %>" id="estadoLabel-<%= formulario.id %>"><%= formulario.status %></label>
+              </div>
+              
+              
+              <div class="checkbox-container">
+                <strong>Selecionar:</strong>
+                <input type="checkbox" id="selecionarCheckbox-<%= formulario.id %>"  data-form-id="<%= formulario.id %>" onclick="selecionarTodosFormulario('<%= formulario.id %>')">
+                <label for="selecionarCheckbox-<%= formulario.id %>" id="selecionarLabel-<%= formulario.id %>"></label>
+              </div>
+              
+
+              <br>
+              <form id="deleteForm-<%= formulario.id %>" action="/deletar-formulario/<%= formulario.id %>" method="post">
+                <button type="button" onclick="confirmarExclusao('<%= formulario.id %>')">Excluir</button>
+              </form>
+            </li>
+            <% }) %>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!--checkbox-->
+  <script>
+    document.addEventListener('DOMContentLoaded', async function() {
+      const checkboxes = document.querySelectorAll('.checkbox-container input[type="checkbox"]');
+
+      checkboxes.forEach(async function(checkbox) {
+        const formId = checkbox.getAttribute('data-form-id');
+        const label = document.querySelector(`#estadoLabel-${formId}`);
+        try {
+          const response = await fetch(`/status/${formId}`);
+          const data = await response.json();
+          if (data && data.status) {
+            checkbox.checked = data.status === 'Confirmado';
+            label.textContent = data.status;
+            label.style.color = data.status === 'Confirmado' ? '#218838' : '';
+            label.style.fontWeight = data.status === 'Confirmado' ? 'bold' : '';
+          }
+        } catch (error) {
+          console.error('Erro ao obter o status do servidor:', error);
+        }
+        checkbox.addEventListener('change', async function() {
+          const formId = this.getAttribute('data-form-id');
+          const label = document.querySelector(`#estadoLabel-${formId}`);
+          if (this.checked) {
+            label.textContent = 'Confirmado';
+            label.style.color = '#218838';
+            label.style.fontWeight = 'bold';
+            await atualizarStatus(formId, 'Confirmado');
+          } else {
+            label.textContent = 'Pendente';
+            label.style.color = '';
+            label.style.fontWeight = '';
+            await atualizarStatus(formId, 'Pendente');
+          }
+        });
+      });
+    });
+
+
+    async function atualizarStatus(id, status) {
+        try {
+            const response = await fetch(`/atualizar-status/${id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ status })
+            });
+          
+            const data = await response.json();
+            if (!data.success) {
+                console.error('Erro ao atualizar o status no servidor.');
+            }
+        } catch (error) {
+            console.error('Erro ao comunicar com o servidor:', error);
+        }
+    }
+
+    socket = io();
+    socket.on('connect', () => {
+        console.log('Conectado ao servidor Socket.IO');
+    });
+
+    socket.on('statusAtualizado', (data) => {
+        console.log(`Status atualizado para o registro com ID ${data.id} para ${data.novoStatus}`);
+        // Aqui você pode atualizar a interface do usuário conforme necessário usando os dados recebidos
+        const label = document.querySelector(`#estadoLabel-${data.id}`);
+    
+    if (label) {
+        label.textContent = data.novoStatus === 'Confirmado' ? 'Confirmado' : 'Pendente';
+        label.style.color = data.novoStatus === 'Confirmado' ? '#218838' : '';
+        label.style.fontWeight = data.novoStatus === 'Confirmado' ? 'bold' : '';
+    } else {
+        console.error(`Elemento label com ID estadoLabel-${data.id} não encontrado.`);
+    }
+    });
+
+ 
+  </script>
+  
+  <script>
+    function formatarDataParaDiaMesAno(data) {
+    const partes = data.split('-');
+    if (partes.length === 3) {
+      return `${partes[2]}/${partes[1]}/${partes[0]}`;
+    }
+    return data;
+}
+    function filtrarPorData() {
+      const dataFiltro = document.getElementById('dataFiltro').value;
+
+      const dataFiltroFormatada = formatarDataParaDiaMesAno(dataFiltro);
+      const titulo = document.querySelector('.containerFormularios h1');
+      titulo.textContent = `Horários reservados no dia ${dataFiltroFormatada}`;
+
+      const formulariosLi = document.querySelectorAll('ul.list-unstyled li');
+    
+      formulariosLi.forEach(li => {
+        const strongElems = li.querySelectorAll('strong');
+        const dataElemento = strongElems[4].nextSibling.textContent.trim();
+    
+        // Reformatar a data do elemento para o formato 'ano/mes/dia'
+        const dataElementoReformatada = reformatarDataParaAnoMesDia(dataElemento);
+    
+        console.log("Data Filtro:", dataFiltro); // Log para depuração
+        console.log("Data Elemento:", dataElementoReformatada); // Log para depuração
+    
+        if (dataElementoReformatada !== dataFiltro) {
+            console.log(dataElementoReformatada, '!==', dataFiltro);
+            li.style.display = 'none'; // Esconde os itens que não correspondem à data filtrada
+        } else {
+            li.style.display = ''; // Mostra os itens que correspondem à data filtrada
+        }
+      });
+      
+    }
+
+    function reformatarDataParaAnoMesDia(data) {
+        const partes = data.split('/');
+        if (partes.length === 3) {
+          return `${partes[2]}-${partes[1]}-${partes[0]}`;
+        }
+        return data;
+    }
+
+    function resetarFiltro() {
+      const formulariosLi = document.querySelectorAll('ul.list-unstyled li');
+      const dataInput = document.getElementById('dataFiltro');
+      dataInput.value = "";
+      const titulo = document.querySelector('.containerFormularios h1');
+      titulo.textContent = `Horários reservados`;
+  
+      formulariosLi.forEach(li => {
+        li.style.display = ''; // Mostra todos os itens novamente
+      });
+    }
+
+  </script>
+
+  <script>
+
+function selecionarTodosFormularios() {
+  const checkboxes = document.querySelectorAll('.selecionavel-checkbox');
+
+  checkboxes.forEach(checkbox => {
+    const formulario = checkbox.closest('li');
+    if (formulario && formulario.style.display !== 'none') {
+      // Obter o ID do formulário diretamente (ajuste conforme a estrutura do seu HTML)
+      const formularioId = checkbox.getAttribute('data-form-id');
+
+      // Use o ID obtido
+      console.log('ID do formulário:', formularioId);
+
+      // Resto da lógica aqui...
+    }
+  });
+}
+
+
+
+
+
+  
+    function confirmarExclusao(id) {
+      const confirmacao = confirm('Tem certeza que deseja excluir este formulário?');
+      if (confirmacao) {
+        const url = `/deletar-formulario/${id}`;
+        fetch(url, {
+          method: 'DELETE'
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            alert(data.message);
+            // Remover o item da lista
+            const itemRemover = document.querySelector(`form#deleteForm-${id}`).parentNode; // Acessando o <li> pai do formulário
+            if (itemRemover) {
+              itemRemover.remove();
+            }
+          } else {
+            alert(data.message);
+          }
+        })
+        .catch(error => {
+          console.error("Erro ao excluir o formulário:", error);
+          alert('Erro ao excluir o formulário.');
+        });
+      }
+    }
+
+    function adicionarNovoFormularioAoDOM(formulario) {
+      const novoItemLista = document.createElement('li');
+
+     novoItemLista.innerHTML = `
+        <strong>Nome Completo:</strong> ${formulario.nome}<br>
+        <strong>Email:</strong> ${formulario.email}<br>
+        <strong>Telefone:</strong> 
+        ${formulario.telefone ? `<a href="https://api.whatsapp.com/send?phone=${formulario.telefone}&text=Ol%C3%A1,%20estou%20passando%20aqui%20para%20confirmar%20o%20hor%C3%A1rio%20no%20dia%20${formulario.data.split('-').reverse().join('/')}%20%C3%A0s%20${formulario.horaInicial.replace(':', '%3A')}%20e%20finalizando%20%C3%A0s%20${formulario.horaFinal.replace(':', '%3A')},%20voc%C3%AA%20confirma%20o%20hor%C3%A1rio%3F%20%F0%9F%98%8A" target="_blank">${formulario.telefone}</a>` : 'Telefone não disponível'}
+        <br>
+        <strong>Tipo de Campo:</strong> ${formulario.esporte}<br>
+        <strong>Data:</strong> ${(() => {
+          var data = new Date(formulario.data);
+          data.setDate(data.getDate() + 1);
+          var day = data.getDate();
+          var month = data.getMonth() + 1; 
+          var year = data.getFullYear();
+
+          const addLeadingZero = (num) => {
+           return num < 10 ? '0' + num : num;
+          };
+
+
+          return `${addLeadingZero(day)}/${addLeadingZero(month)}/${year}`;
+        })()}<br>
+
+        <strong>Hora Inicial:</strong> ${formulario.horaInicial}<br>
+        <strong>Hora Final:</strong> ${formulario.horaFinal}<br><br>
+        
+        <div class="checkbox-container">
+          <strong>Status:</strong>
+          <input type="checkbox" id="estadoCheckbox-${formulario.id}" data-form-id = "${formulario.id}">
+          <label for="estadoCheckbox-${formulario.id}" id="estadoLabel-${formulario.id}">Pendente</label>
+        </div>
+
+
+        <br>
+        <form id="deleteForm-${formulario.id}" action="/deletar-formulario/${formulario.id}" method="post">
+          <button type="button" onclick="confirmarExclusao('${formulario.id}')">Excluir</button>
+        </form>
+     
+      `;
+      const checkbox = novoItemLista.querySelector(`#estadoCheckbox-${formulario.id}`);
+      const label = novoItemLista.querySelector(`#estadoLabel-${formulario.id}`);
+
+      checkbox.addEventListener('change', function() {
+        const formId = this.getAttribute('data-form-id');
+        const label = document.querySelector(`#estadoLabel-${formId}`);
+
+        if (this.checked) {
+          label.textContent = 'Confirmado';
+          label.style.color = '#218838';
+          label.style.fontWeight = 'bold';
+          atualizarStatus(formId, 'Confirmado');
+        } else {
+          label.textContent = 'Pendente';
+          abel.style.color = '';
+          abel.style.fontWeight = '';
+          tualizarStatus(formId, 'Pendente');
+       }
+     });
+
+
+      const listaFormularios = document.querySelector('ul.list-unstyled');
+      listaFormularios.appendChild(novoItemLista);
+      
+    }
+
+    
+    const socket = io();
+    socket.on('novoFormulario', (formulario) => {
+      adicionarNovoFormularioAoDOM(formulario);
+     });
+ 
+  </script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+
+  <script>
+    function exportarParaExcel() {
+      const dataFiltro = document.getElementById('dataFiltro').value;
+
+      const formulariosLi = document.querySelectorAll('ul.list-unstyled li');
+      const formularios = [];
+
+      formulariosLi.forEach(li => {
+          const strongElems = li.querySelectorAll('strong');
+          const dataElemento = strongElems[4].nextSibling.textContent.trim();
+          const dataElementoReformatada = reformatarDataParaAnoMesDia(dataElemento);
+
+          // Se dataFiltro estiver vazio ou a data do elemento corresponder ao dataFiltro
+          if (!dataFiltro || dataElementoReformatada === dataFiltro) {
+              const nome = strongElems[0].nextSibling.textContent.trim();
+              const email = strongElems[1].nextSibling.textContent.trim();
+              const telefone = li.querySelector('a') ? li.querySelector('a').textContent.trim() : "Telefone não disponível";
+              const tipoCampo = strongElems[3].nextSibling.textContent.trim();
+              const horaInicial = strongElems[5].nextSibling.textContent.trim();
+              const horaFinal = strongElems[6].nextSibling.textContent.trim();
+              const status = li.querySelector('label').textContent.trim();
+
+              formularios.push({
+                  nome,
+                  email,
+                  telefone,
+                  tipoCampo,
+                  data: dataElementoReformatada,
+                  horaInicial,
+                  horaFinal,
+                  status
+              });
+          }
+      });
+
+      if (formularios.length === 0) {
+          alert("Nenhum formulário encontrado para a data selecionada.");
+          return;
+      }
+
+      const ws = XLSX.utils.json_to_sheet(formularios);
+      const wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, "Formulários");
+
+      XLSX.writeFile(wb, 'formularios.xlsx');
+    }
+
+  </script>
+</body>
+
+</html>

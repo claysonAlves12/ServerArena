@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arena Bravo</title>
+    <link rel="stylesheet" type="text/css" href="/css/index.css">
+    <link rel="shortcut icon" href="../public/imgs/ImagensPrincipais/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+    <!-- Facebook Pixel Code -->
+    <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window,document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '1416297359259031'); 
+    fbq('track', 'PageView');
+    fbq('track', 'ViewContent');
+    </script>
+    <noscript>
+    <img height="1" width="1" 
+    src="https://www.facebook.com/tr?id=1416297359259031&ev=PageView
+    &noscript=1"/>
+    </noscript>
+    <!-- End Facebook Pixel Code -->
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-11372869818"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+    
+      gtag('config', 'AW-11372869818');
+    </script>
+</head>
+
+<body class="fundo">
+    <header>
+        <div id="logoArenaBravo">
+            <img src="/imgs/ImagensPrincipais/LOGO REDES.png" alt="Logo da Empresa">
+            <span>Arena Bravo</span>  
+
+            <div class="nav-container">
+                <nav>
+                    <ul>
+                      <!--- <li><a href="#">Home</a></li>-->
+                        <!---<li><a href="#">Sobre</a></li>-->
+                       <!-- <li><a href="#">Serviços</a></li>-->
+                        <!-- <li><a href="https://api.whatsapp.com/send/?phone=%2B5563992390406&text&type=phone_number&app_absent=0">Contato</a></li>-->
+                    </ul>
+                </nav>
+            </div>
+        </div>   
+    </header>
+   
+    <section class="banner">
+        <div class="image-container">
+            <a href="https://api.whatsapp.com/send/?phone=%2B5563992390406&text=Ol%C3%A1,%20gostaria%20de%20matricular%20meu%20filho%20na%20escolinha%20de%20Futebol!&type=phone_number&app_absent=0">
+                <img id="escolinhaDeFutebolBanner1" src="/imgs/Banners/EscolinaDeFutebol.png" alt="Escolinha de futebol">
+            </a>
+            <a href="/">
+                <img id="escolinhaDeFutebolBanner2" src="/imgs/Banners/voleiDePraia.png" alt="Volei de praia">
+            </a>
+        </div>
+    
+        <div class="navigation-dots">
+            <span class="dot active" onclick="showBanner(0)"></span>
+            <span class="dot" onclick="showBanner(1)"></span>
+        </div>
+    </section>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 bg-custom-colorText">
+                <div class="texto">
+                    <h5 class="custom-h5">Arena Bravo, o seu centro de práticas esportivas!</h5>
+                    <div class="video-wrapper">
+                        <video width="100%" controls>
+                            <source src="/videos/arenaBravo.mp4" type="video/mp4">
+                            Seu navegador não suporta o elemento de vídeo.
+                        </video>
+                    </div>
+                    <h5 class="TextReserva-h5">Informações sobre a Reserva!</h5>
+                    <p class ="textReserva">
+                        Temos o prazer de informar que nossa reserva esportiva conta com um total de três campos de futebol de alta qualidade, todos eles com dimensões oficiais FIFA, idealizados para proporcionar partidas emocionantes e treinamentos eficientes. Além disso, oferecemos dois campos de areia versáteis, ideais não apenas para partidas de futebol, mas também perfeitos para futevôlei, vôlei de areia e outras atividades. Solicitamos que, ao realizar a reserva, informem os horários desejados com precisão, por exemplo, das 08:00 às 10:00.
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-md-6 ">
+                <div id="formulario">
+                   <h5 class="custom-h5-reservar">Reservar
+                   </h5>
+                   <form id="reserva-formulario-id" onsubmit="return validarEEnviarFormulario()">
+                       <label for="nome">Nome Completo:</label>
+                       <input type="text" id="nome" name="nome" pattern="[A-Za-zÀ-ÖØ-öø-ÿ\s]+" title="Digite apenas letras e espaços" required><br>
+                
+                       <label for="telefone">Telefone:</label>
+                       <input type="tel" id="telefone" name="telefone"  title="Digite seu número de Telefone" required oninput="formatarTelefone()">
+
+                       <label for="email">Email:</label>
+                       <input type="email" id="email" name="email" title="Digite seu E-mail" required><br>
+                
+                       <label for="esporte">Tipo de Campo:</label>
+                       <select id="esporte" name="esporte" title="Selecione o campo" required>
+                           <option value="Campo de Areia">Campo de Areia</option>
+                           <option value="Campo de Gramado">Society</option>
+                       </select><br>
+                   
+                       <label for="data">Data:</label>
+                       <input type="date" id="data" name="data" title="Selecione a data" required><br>
+                   
+                       <label for="hora">Hora Inicial:</label>
+                       <input type="time" id="horaInicial" name="horaInicial" title="Selecione a hora" required><br>
+
+                       <label for="hora">Hora Final:</label>
+                       <input type="time" id="horaFinal" name="horaFinal" title="Selecione a hora" required><br>
+                       <br>
+                       <input type="submit" value="Reservar">
+                   </form>
+                </div>
+
+                <div class="horariosDisponiveis d-none">
+                    <div class="center-content">
+                        <h2>Sugestão de Horários Disponíveis</h2>
+                        <ul class="listaHorarios">
+                        </ul>
+                        <button onclick="fecharHorariosDisponiveis()" class="btnFecharHorario">Fechar</button>
+                    </div>
+                </div>
+                
+
+            </div>
+
+            <div class="status-moviment">
+                <div class="status-funcionamento"></div>
+                <div class="horario-funcionamento">
+                    <p class="textFuncionament">
+                        <strong>Segunda-feira</strong>
+                        <span>08:00 - 23:00</span>
+                    </p>
+                    <p class="textFuncionament">
+                        <strong>Terça-feira</strong>
+                        <span>08:00 - 23:00</span>
+                    </p>
+                    <p class="textFuncionament">
+                        <strong>Quarta-feira</strong>
+                        <span>08:00 - 23:00</span>
+                    </p>
+                    <p class="textFuncionament">
+                        <strong>Quinta-feira</strong>
+                        <span>08:00 - 23:00</span>
+                    </p>
+                    <p class="textFuncionament">
+                        <strong>Sexta-feira</strong>
+                        <span>08:00 - 23:00</span>
+                    </p>
+                    <p class="textFuncionament">
+                        <strong>Sábado</strong>
+                        <span>08:00 - 23:00</span>
+                    </p>
+                    <p class="textFuncionament">
+                        <strong>Domingo</strong>
+                        <span>Fechado</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="containerDois">
+        <div class="row">
+            <div class="col-md-6 Carousel">
+                <div id="meuCarrossel" class="carousel slide" data-ride="carousel">
+                  <div class="carousel-inner">
+                    <% for (let i = 0; i < imagens.length; i++) { %>
+                      <div class="carousel-item <%= i === 0 ? 'active' : '' %>">
+                        <a href="<%= imagens[i].path %>" data-fancybox="gallery" data-caption=" <%= imagens[i].nome %>">
+                          <img class="mainCarousel" src="<%= imagens[i].path %>" alt="Imagem <%= i + 1 %> - <%= imagens[i].nome %>">
+                        </a>
+                      </div>
+                    <% } %>
+                  </div>
+                  <a class="carousel-control-prev" href="#meuCarrossel" role="button" data-slide="prev"></a>
+                  <a class="carousel-control-next" href="#meuCarrossel" role="button" data-slide="next"></a>
+                </div>
+              </div>
+
+            <div class="col-md-6 bg-custom-mapa">
+               <h5 class="TituloMapa">Localização</h5>
+                <div class="maps">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d494.7765035124836!2d-48.219084606371084!3d-7.216732128566989!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x92d90fc3e8a8343b%3A0x7d45db649b7f9aa2!2sArena%20Bravo!5e0!3m2!1sen!2sbr!4v1702389116409!5m2!1sen!2sbr"></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="cookie-notification" class="cookie-notification">
+        <p class="textCookie">A nossa plataforma utiliza cookies para assegurar que sua experiência ao agendar horários de quadra seja a mais eficiente e personalizada possível. Para mais informações, consulte nossa <a href="/politica-de-privacidade">Política de Privacidade</a>.
+        </p>
+
+        <button id="accept-cookies-btn" class="btn btn-primary">Concordar e Fechar</button>
+    </div>
+    
+
+    <footer class="bg-dark text-light text-center py-3">
+        <div class="containerRede">
+            <h5 class="redesSociais">Nossas Redes Sociais</h5>
+            <div id="redesSociais" class="d-flex justify-content-center align-items-center"> 
+              <a href="https://www.facebook.com/arenabravoaraguaina" target="_blank" class="social-icon social-icon-space me-2">
+                <img src="/imgs/ImagensPrincipais/facebook.png" alt="Facebook" class="img-fluid smaller-icon">
+            </a>
+        
+            <a href="https://www.instagram.com/arenabravo_/" target="_blank" class="social-icon social-icon-space me-2">
+                <img src="/imgs/ImagensPrincipais/instagran.png" alt="Instagram" class="img-fluid smaller-icon">
+            </a>
+        
+            <a href="https://api.whatsapp.com/send?phone=5563992390406&text=Ol%C3%A1" target="_blank" class="social-icon social-icon-space me-2">
+                <img src="/imgs/ImagensPrincipais/whats.png" alt="WhatsApp" class="img-fluid smaller-icon">
+            </a>
+        
+            <a href="https://www.youtube.com/@arenabravo3649" target="_blank" class="social-icon">
+                <img src="/imgs/ImagensPrincipais/youtub.png" alt="YouTube" class="img-fluid smaller-icon">
+            </a>
+            </div>
+        </div>
+    </footer>
+    
+  <!--  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
+   <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js"></script>
+  
+
+    <!-- banners -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            let currentBanner = 0;
+            const banners = document.querySelectorAll('.image-container img');
+            const dots = document.querySelectorAll('.dot');
+                
+            function showBanner(index) {
+                // Oculta todos os banners e remove a classe active de todos os dots
+                banners.forEach(banner => {
+                    banner.style.display = 'none';
+                });
+                dots.forEach(dot => {
+                    dot.classList.remove('active');
+                });
+            
+                // Mostra o banner com o índice fornecido e adiciona a classe active ao dot correspondente
+                banners[index].style.display = 'block';
+                dots[index].classList.add('active');
+            }
+        
+            function handleClick(index) {
+                showBanner(index);
+            }
+        
+            dots.forEach((dot, index) => {
+                dot.addEventListener('click', function() {
+                    handleClick(index);
+                });
+            });
+        
+            function rotateBanners() {
+                currentBanner = (currentBanner + 1) % banners.length;
+                showBanner(currentBanner);
+            }
+        
+            setInterval(rotateBanners, 3000); 
+        });
+    </script>
+
+   <!-- barra de rolagem -->
+   <script>
+    var lastScrollPosition = 0; 
+
+    window.addEventListener('scroll', function() {
+        var currentScrollPosition = window.scrollY;
+        var header = document.querySelector('header');
+
+        if (currentScrollPosition > lastScrollPosition) {
+            header.style.backgroundColor = 'rgba(0, 77, 64, 0.8)'; 
+        } else {
+            header.style.backgroundColor = '#004D40'; 
+        }
+
+        lastScrollPosition = currentScrollPosition;
+    });
+   </script>
+  
+
+   <!--aberto/fechado-->
+   <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const hoje = new Date().getDay();
+
+            const statusElement = document.querySelector(".status-funcionamento");
+
+            if (hoje === 0 || new Date().getHours() < 8 || new Date().getHours() >= 23) {
+                statusElement.innerText = "Fechado";
+                statusElement.style.color = "red";
+                statusElement.style.backgroundColor ="black"
+               
+               
+            } else {
+                statusElement.innerText = "Aberto";
+                statusElement.style.color = "#EEF093";
+                statusElement.style.border = "2px solid #EEF093";
+               
+            }   
+        });
+        
+   </script>
+        
+    <!--cookie-->   
+   <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const cookieNotification = document.getElementById("cookie-notification");
+            const acceptCookiesBtn = document.getElementById("accept-cookies-btn");
+
+            const cookieAccepted = getCookie("cookiesAccepted");
+
+            if (!cookieAccepted) {
+                cookieNotification.style.display = "block"; 
+            }
+
+            acceptCookiesBtn.addEventListener("click", function() { 
+                setCookie("cookiesAccepted", "true", 365);  
+                cookieNotification.style.display = "none";
+            });
+        });
+
+        
+        function setCookie(name, value, days) {
+            const date = new Date();
+            date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+            const expires = "expires=" + date.toUTCString();
+            document.cookie = name + "=" + value + ";" + expires + ";path=/";
+        }
+
+        function getCookie(name) {
+            const cookieName = name + "=";
+            const decodedCookie = decodeURIComponent(document.cookie);
+            const cookies = decodedCookie.split(';');
+            for(let i = 0; i < cookies.length; i++) {
+                let cookie = cookies[i];
+                while (cookie.charAt(0) == ' ') {
+                    cookie = cookie.substring(1);
+                }
+                if (cookie.indexOf(cookieName) == 0) {
+                    return cookie.substring(cookieName.length, cookie.length);
+                }
+            }
+            return "";
+        }
+   </script>
+
+    <!-- formularios -->
+   <script src="/js/validarEEnviarFormulario.js"></script>
+  
+   <!-- socket io -->
+   <script src="https://cdn.socket.io/4.1.3/socket.io.min.js"></script>
+   
+</body>
+</html>
+

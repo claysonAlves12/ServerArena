@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Proibir Horário</title>
+  <link rel="shortcut icon" href="/imgs/favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <!-- Se você tiver um arquivo CSS, insira aqui -->
+  <script src="/socket.io/socket.io.js"></script>
+  
+  <style>
+   body {
+        font-family: 'Arial', sans-serif;
+        background-color: #f4f4f4;
+        content: ""; 
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-image: url('../imgs/arenaImagens/Campo\ 6.jpeg');
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        z-index: -1;
+    }
+
+    .container {
+        max-width: 600px;
+        margin: 20px auto;
+        padding: 20px;
+        background-color: #004D40;
+        color: #EEF093;
+        font-size: 1.2em;
+        font-weight: bold;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.9);
+    }
+
+    .message {
+        background-color: #ffe5e5;
+        padding: 10px;
+        border-radius: 5px;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 10px;
+        font-weight: bold;
+    }
+
+    input[type="date"],
+    input[type="time"],
+    button[type="submit"] {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        font-size: 16px;
+    }
+
+    button[type="submit"] {
+        padding: 50;
+        background-color: #EEF093;
+        color: #004D40;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    button[type="submit"]:hover {
+        background-color: red;
+        color: black;
+        transform: translateY(-3px);
+      
+    }
+
+    a {
+        display: block;
+        margin-top: 20px;
+        text-align: center;
+        color: #EEF093;
+        text-decoration: none;
+    }
+
+    a:hover {
+        text-decoration: underline;
+        color: red;
+        text-decoration: none;
+    }
+
+    a:hover {
+        color: white;
+        text-decoration: none;
+        transform: translateY(-3px); 
+    }
+
+    .containerHoras {
+        margin: 20px auto;
+        max-width: 90vw; 
+        padding: 20px;
+        background-color: #004D40;
+        font-size: 1.2em;
+        font-weight: bold;
+        border-radius: 20px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.9);
+    }
+   
+    @media (max-width: 768px) {
+      .containerHoras {
+        max-width: 95vw;
+        padding: 15px;
+        font-size: 1em;
+      }
+    }
+
+    .table {
+      width: 100%;
+      border-collapse: collapse;
+      background-color: #fff;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .table th, .table td {
+        padding: 15px 25px;
+        text-align: left;
+        border-bottom: 1px solid #e0e0e0;
+    }
+
+    .table th {
+        background-color: #f7f7f7;
+        font-weight: bold;
+        color: rgb(92, 91, 91);
+    }
+
+    .table tbody tr:hover {
+        background-color: #f5f5f5;
+    }
+
+    a {
+        display: inline-block;
+        margin-top: 20px;
+        padding: 10px 20px;
+        text-decoration: none;
+        color: #004D40;
+        background-color: #DFF093;
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+    }
+
+    a:hover {
+        background-color: #DFF093;
+        color: #004D40;
+    }
+
+    .btn-excluir[type="submit"] {
+        background-color: #FF3333;
+        color: white;
+        border: none;
+        padding: 2px 10px;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+    .btn-excluir[type="submit"]:hover {
+        background-color: #CC0000;
+    }
+
+    .horarioProibido {
+        font-family: 'Arial', sans-serif; 
+        font-size: 2.5em; 
+        color: #FF5733; 
+        background-color: #F4F4F4; 
+        padding: 15px 25px; 
+        border-radius: 10px; 
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); 
+        text-align: center; 
+        margin: 30px 0; 
+        transition: background-color 0.3s ease; 
+        font-weight: bold; 
+        text-decoration: underline; 
+    }
+
+    .horarioProibido:hover {
+        background-color: #E0E0E0; 
+        text-decoration: none; 
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); 
+    }
+
+    .placeholder {
+        color: red;
+        font-weight: bold;
+    }
+
+  </style>  
+</head>
+<body>
+    <div class="container">
+        <h1>Proibir Horário</h1>
+        <a href="/reservado">Hórarios Reservados </a>
+        <form action="/proibir-horarios" method="POST">
+            <div class="form-group">
+               <br>
+               <label for="data">Data</label>
+               <input type="date" id="data" name="data" required>
+            </div>
+
+            <div class="form-group">
+                <span style="color: rgb(158, 12, 12);background-color: white;padding: 10px; border-radius: 5px;">Obs.: Deixe em branco os horarios para ser o dia todo.</span>  
+                <br><br>
+                <label for="horaInicial">Horário Inicial</label>
+                <input type="time" id="horaInicial" name="horaInicial">
+                <label for="horaFinal">Horário Final</label>
+                <input type="time" id="horaFinal" name="horaFinal">
+            </div>
+
+            <div class="form-group">
+              <label for="descricao">Motivo da Proibição:</label>
+              <textarea id="descricao" name="descricao" rows="4" style="width: 560px; height: 100px;border-radius: 5px;" placeholder="Descreva o motivo da proibição" maxlength="100" required></textarea>
+            </div>
+
+            <button type="submit">Proibir Horário</button>
+            <br>
+            <br>
+            
+            <div id="alertContainer" style="display:none; background-color: #e6ff07; border: 2px solid #ff9900; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+                <div id="alertMessage" style="color: #000000; font-size:20px; padding: 16px;  font-weight: bold;text-align: center;">     
+                </div>  
+            </div>
+            
+            
+        </form>
+    </div>
+
+    <div class="containerHoras">
+        <h2 class = "horarioProibido">Horários e Datas Proibidos</h2>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                   <th>Data</th>
+                   <th>Hora Inicial</th>
+                   <th>Hora Final</th>
+                   <th>Descrição</th>
+                   <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <% 
+                    const dataFormatada = ''; // Initialize outside the loop
+                    const horariosOrdenados = horariosProibidos.sort((a, b) => {
+                        if (a.data < b.data) return -1;
+                        if (a.data > b.data) return 1;
+                        return 0;
+                    });
+                    horariosOrdenados.forEach(proibido => { 
+                    %>
+                        <tr>
+                            <td data-id="<%= proibido.key %>" data-type="data" data-original="<%= dataFormatada %>">
+                                <% 
+                                if (proibido && proibido.data) {
+                                    const [ano, mes, dia] = proibido.data.split('-');
+                                    const dataFormatada = `${dia}/${mes}/${ano}`;
+                                    %>
+                                    <%= dataFormatada %>
+                                    <%
+                                } else {
+                                    %>
+                                    Data incoreta
+                                    <%
+                                }
+                                %>
+                            </td>
+
+                             <td data-type="horaInicial" data-original="<%= dataFormatada %>">
+                                <span >
+                                    <% if (proibido && proibido.horaInicial) { %>
+                                        <%= proibido.horaInicial %>
+                                    <% } else { %>
+                                        <span class="placeholder">O Dia Todo</span>
+                                    <% } %>
+                                </span>
+                                <input type="time"  style="display: none;" value="<%= proibido && proibido.horaInicial ? proibido.horaInicial : '' %>">
+                            </td>
+
+                            <td data-type="horaFinal" data-original="<%= dataFormatada %>">
+                                <span >
+                                    <% if (proibido && proibido.horaFinal) { %>
+                                        <%= proibido.horaFinal %>
+                                    <% } else { %>
+                                        <span class="placeholder">O Dia Todo</span>
+                                    <% } %>
+                                </span>
+                                <input type="time"  style="display: none;" value="<%= proibido && proibido.horaFinal ? proibido.horaFinal : '' %>">
+                            </td>
+                            
+                            <td data-id="<%= proibido.key %>" data-type="descricao" data-original="<%= dataFormatada %>">
+                                <%= proibido && proibido.descricao ? proibido.descricao : '' %>
+                            </td>  
+                        
+                            <td>
+                                <form action="/excluir-horario" method="POST">
+                                    <input type="hidden" name="horarioId" value="<%= proibido.key %>">
+                                    <button type="submit" class="btn-excluir">Excluir</button>
+                                </form>
+                            </td>
+                        </tr>
+                    <% }); 
+                %>
+            </tbody>
+        </table>
+    </div>
+    <br>
+    
+    <!--horario do formulario de proibição  -->
+    <script>
+       document.addEventListener("DOMContentLoaded", function() {
+            document.querySelector('form').addEventListener('submit', function(event) {
+                const horaInicial = document.getElementById('horaInicial').value;
+                const horaFinal = document.getElementById('horaFinal').value;
+
+                if (!horaInicial || !horaFinal) {
+                    return;
+                }
+
+                if (horaInicial === horaFinal) {
+                    event.preventDefault();
+                    alert(`Horário incorreto, hora Inicial ${horaInicial}hrs é igual a hora final ${horaFinal}hrs.`);
+                    document.getElementById('horaInicial').value = '';
+                    document.getElementById('horaFinal').value = '';
+                } else if (horaInicial > horaFinal){
+                    event.preventDefault();
+                    alert(`Horário incorreto, hora Inicial ${horaInicial}hrs é maior que a hora final ${horaFinal}hrs.`);
+                    document.getElementById('horaInicial').value = '';
+                    document.getElementById('horaFinal').value = '';
+                }
+            });
+        });
+    </script>
+            
+    <!--alert  -->     
+    <script>
+
+        const showAlert = (message) => {
+            const alertContainer = document.getElementById('alertContainer');
+            const alertMessage = document.getElementById('alertMessage');
+
+            alertMessage.textContent = message;
+            alertContainer.style.display = 'block';
+        };
+
+
+        const socket = io();
+        socket.on('horasJaRegistradas', (data) => {
+            showAlert(data.message);
+        });
+
+        socket.on('horasJaRegistradas', (data) => {
+            console.log('Evento horasJaRegistradas acionado:', data);
+            showAlert(data.message);
+        });
+ 
+    </script>
+        
+</body>
+
+</html>
+
+
+
