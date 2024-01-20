@@ -15,6 +15,8 @@ app.use(methodOverride('_method'));
 const admin = require('firebase-admin');
 const serviceAccount = require('./arenatest-407913-firebase-adminsdk-z5m0o-9ff59aa7cf.json'); 
 
+console.log('Iniciando o aplicativo...');
+
 app.set('views', path.join(__dirname, 'src/views'));
 app.set('view engine', 'ejs');
 
