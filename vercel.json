@@ -3,9 +3,5 @@
   "builds": [
     { "src": "server.js", "use": "@now/node" }
   ],
-  "routes": [
-  { "src": "/views/(.*)", "dest": "/src/views/$1" },
-  { "src": "/(.*)", "dest": "/src/$1" }
-  ]
-
+ 
 }
