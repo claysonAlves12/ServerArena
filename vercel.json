@@ -1,10 +1,8 @@
 {
   "version": 2,
-  "functions": {
-    "api": "server.js",  
-    "websocket": {
-      "handler": "websocket.js",  
-      "allowConfig": true
+   "functions": {
+    "api": {
+      "/*": ["path/to/your/serverless/function"]
     }
   },
   "builds": [
