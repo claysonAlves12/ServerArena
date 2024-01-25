@@ -1,32 +1,15 @@
-const express = require('express');
-const app = express();
+const { send, json } = require('micro');
+const { createServer } = require('http');
+const admin = require('firebase-admin');
 const path = require('path');
 const fs = require('fs');
-const bodyParser = require('body-parser');
-const bcrypt = require('bcrypt');
-const admin = require('firebase-admin');
-const flash = require('connect-flash');
 
-const serviceAccount = require('./arenatest-407913-firebase-adminsdk-z5m0o-9ff59aa7cf.json');
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
   databaseURL: "https://arenatest-407913-default-rtdb.firebaseio.com"
 });
 
-app.set('views', path.join(__dirname, 'src/views'));
-app.set('view engine', 'ejs');
-
-app.use(express.static(path.join(__dirname, 'src/public')));
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.json());
-
-app.use(flash());
-
-const db = admin.database();
-const formulariosRef = admin.database().ref('formularios');
-
-// Mantenha a função para atualizar o cache
-async function atualizarCache() {
+const atualizarCache = async () => {
   try {
     const pastaImagens = path.join(__dirname, 'src/public/imgs');
     const listaImagens = fs.readdirSync(pastaImagens).map(imagem => {
@@ -46,39 +29,42 @@ async function atualizarCache() {
   } catch (error) {
     console.error('Erro ao atualizar o cache:', error.message);
   }
-}
+};
 
+module.exports = async (req, res) => {
+  if (req.method === 'GET' && req.url === '/') {
+    try {
+      await atualizarCache();
+      const pastaImagens = path.join(__dirname, 'src/public/imgs/arenaImagens');
+      const listaImagens = fs.readdirSync(pastaImagens).map(imagem => {
+        const nomeSemExtensao = path.parse(imagem).name;
+        return {
+          path: path.join('/imgs/arenaImagens', imagem),
+          nome: nomeSemExtensao
+        };
+      });
 
+      const usuariosRef = admin.database().ref('usuarios');
+      const snapshot = await usuariosRef.once('value');
+      const usuarios = snapshot.val();
+      const rows = usuarios ? Object.values(usuarios) : [];
 
-// Rota para a home page
-app.get('/', async (req, res) => {
-  try {
-    await atualizarCache();
-    const pastaImagens = path.join(__dirname, 'src/public/imgs/arenaImagens');
-    const listaImagens = fs.readdirSync(pastaImagens).map(imagem => {
-      const nomeSemExtensao = path.parse(imagem).name;
-      return {
-        path: path.join('/imgs/arenaImagens', imagem),
-        nome: nomeSemExtensao
-      };
-    });
+      // Comente a linha abaixo para evitar emitir eventos Socket.IO em contexto serverless
+      // io.emit('dadosAtualizados', rows);
 
-    const usuariosRef = admin.database().ref('usuarios');
+      // Envie uma resposta HTTP usando a função send do micro
+      send(res, 200, { usuarios: rows, user: req.user, imagens: listaImagens });
 
-    const snapshot = await usuariosRef.once('value');
-    const usuarios = snapshot.val();
-
-    const rows = usuarios ? Object.values(usuarios) : [];
-
-    io.emit('dadosAtualizados', rows);
-
-    res.render('index', { usuarios: rows, user: req.user, imagens: listaImagens });
-
-  } catch (error) {
-    console.error(error.message);
-    res.status(500).send('Erro interno no servidor');
+    } catch (error) {
+      console.error(error.message);
+      // Envie uma resposta de erro usando a função send do micro
+      send(res, 500, 'Erro interno no servidor');
+    }
+  } else {
+    // Envie uma resposta de erro para todas as outras rotas não suportadas
+    send(res, 404, 'Rota não encontrada');
   }
-});
+};
 
 //Rota para consultar os dados (formularios)
 app.post('/consultar-dados', async (req, res) => {
