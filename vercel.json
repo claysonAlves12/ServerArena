@@ -19,5 +19,11 @@
       "src": "/.*",
       "dest": "/server.js"
     }
-  ]
+  ],
+  "functions": {
+    "api/websocket": {
+      "handler": "server.js"
+    }
+  }
 }
+
