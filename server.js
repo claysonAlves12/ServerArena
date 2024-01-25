@@ -35,35 +35,43 @@ const atualizarCache = async () => {
   }
 };
 
+const staticMiddleware = serveStatic(path.join(__dirname, 'public'));
+
 module.exports = async (req, res) => {
-  if (req.method === 'GET' && req.url === '/') {
-    try {
-      await atualizarCache();
-      const pastaImagens = path.join(__dirname, 'src/public/imgs/arenaImagens');
-      const listaImagens = fs.readdirSync(pastaImagens).map(imagem => {
-        const nomeSemExtensao = path.parse(imagem).name;
-        return {
-          path: path.join('/imgs/arenaImagens', imagem),
-          nome: nomeSemExtensao
-        };
-      });
+  // Executar o middleware de arquivos estáticos primeiro
+  staticMiddleware(req, res, async (err) => {
+    if (err) {
+      // Se houver um erro no middleware de arquivos estáticos, continue com a lógica do seu aplicativo
+      if (req.method === 'GET' && req.url === '/') {
+        try {
+          await atualizarCache();
+          const pastaImagens = path.join(__dirname, 'src/public/imgs/arenaImagens');
+          const listaImagens = fs.readdirSync(pastaImagens).map(imagem => {
+            const nomeSemExtensao = path.parse(imagem).name;
+            return {
+              path: path.join('/imgs/arenaImagens', imagem),
+              nome: nomeSemExtensao
+            };
+          });
 
-      const usuariosRef = admin.database().ref('usuarios');
-      const snapshot = await usuariosRef.once('value');
-      const usuarios = snapshot.val();
-      const rows = usuarios ? Object.values(usuarios) : [];
+          const usuariosRef = admin.database().ref('usuarios');
+          const snapshot = await usuariosRef.once('value');
+          const usuarios = snapshot.val();
+          const rows = usuarios ? Object.values(usuarios) : [];
 
-      const html = await ejs.renderFile(
-        path.join(__dirname, 'src/views/index.ejs'),
-        { usuarios: rows, user: req.user, imagens: listaImagens }
-      );
+          const html = await ejs.renderFile(
+            path.join(__dirname, 'src/views/index.ejs'),
+            { usuarios: rows, user: req.user, imagens: listaImagens }
+          );
 
-      send(res, 200, html);
-    } catch (error) {
-      console.error(error.message);
-      send(res, 500, 'Erro interno no servidor');
+          send(res, 200, html);
+        } catch (error) {
+          console.error(error.message);
+          send(res, 500, 'Erro interno no servidor');
+        }
+      } else {
+        send(res, 404, 'Rota não encontrada');
+      }
     }
-  } else {
-    send(res, 404, 'Rota não encontrada');
-  }
+  });
 };
