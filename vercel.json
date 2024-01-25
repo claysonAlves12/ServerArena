@@ -1,9 +1,7 @@
 {
   "version": 2,
   "functions": {
-    "api": {
-      "handler": "server.js"
-    },
+    "api": "server.js",
     "websocket": {
       "allowConfig": true,
       "dest": "websocket.js"
