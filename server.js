@@ -6,6 +6,9 @@ const fs = require('fs');
 const express = require('express'); // Adicionado
 
 const app = express();
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'src/views'));
+
 
 // Importe o arquivo serviceAccount
 const serviceAccount = require('./arenatest-407913-firebase-adminsdk-z5m0o-9ff59aa7cf.json');
