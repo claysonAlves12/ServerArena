@@ -15,8 +15,6 @@ app.use(methodOverride('_method'));
 const admin = require('firebase-admin');
 const serviceAccount = require('./arenatest-407913-firebase-adminsdk-z5m0o-9ff59aa7cf.json'); 
 
-console.log('Iniciando o aplicativo...');
-
 app.set('views', path.join(__dirname, 'src/views'));
 app.set('view engine', 'ejs');
 
@@ -50,37 +48,9 @@ admin.initializeApp({
 const db = admin.database();
 const formulariosRef = admin.database().ref('formularios');
 
-async function atualizarCache() {
-  try {
-    const pastaImagens = path.join(__dirname, 'src/public/imgs');
-    const listaImagens = fs.readdirSync(pastaImagens).map(imagem => {
-      const nomeSemExtensao = path.parse(imagem).name;
-      return {
-        path: path.join('/imgs/arenaImagens', imagem),
-        nome: nomeSemExtensao
-      };
-    });
-
-    const usuariosRef = admin.database().ref('usuarios');
-    const snapshot = await usuariosRef.once('value');
-    const usuarios = snapshot.val();
-    const rows = usuarios ? Object.values(usuarios) : [];
-
-    io.emit('dadosAtualizados', rows);
-
-    // Atualizar o cache com os novos dados, se necessário
-    // Código para atualização do cache...
-
-    console.log('Cache atualizado com sucesso.');
-  } catch (error) {
-    console.error('Erro ao atualizar o cache:', error.message);
-  }
-}
-
 // Rota para a home page
 app.get('/', async (req, res) => {
   try {
-    await atualizarCache();
     const pastaImagens = path.join(__dirname, 'src/public/imgs/arenaImagens');
     const listaImagens = fs.readdirSync(pastaImagens).map(imagem => {
       const nomeSemExtensao = path.parse(imagem).name;
@@ -319,7 +289,6 @@ function ensureAuthenticated(req, res, next) {
   }
 }
 
-
 //Rota para o formulário de cadastro
 app.get('/cadastro',ensureAuthenticated, (req, res) => {
   res.render('cadastro', { message: req.flash('error') });
@@ -350,6 +319,11 @@ app.post('/cadastro',ensureAuthenticated, async (req, res) => {
     console.error(error.message);
     return res.status(500).send('Erro interno no servidor.');
   }
+});
+
+// Rota para a página de login
+app.get('/login', (req, res) => {
+  res.render('login', { message: req.flash('error') });
 });
 
 //logar usuario
