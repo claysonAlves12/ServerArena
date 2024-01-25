@@ -15,6 +15,14 @@ app.use(methodOverride('_method'));
 const admin = require('firebase-admin');
 const serviceAccount = require('./arenatest-407913-firebase-adminsdk-z5m0o-9ff59aa7cf.json'); 
 
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+  databaseURL: "https://arenatest-407913-default-rtdb.firebaseio.com" 
+});
+
+const db = admin.database();
+const formulariosRef = admin.database().ref('formularios');
+
 app.set('views', path.join(__dirname, 'src/views'));
 app.set('view engine', 'ejs');
 
@@ -43,14 +51,6 @@ io.on('connection', (socket) => {
       
   });
 });
-
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-  databaseURL: "https://arenatest-407913-default-rtdb.firebaseio.com" 
-});
-
-const db = admin.database();
-const formulariosRef = admin.database().ref('formularios');
 
 // Rota para a home page
 app.get('/', async (req, res) => {
