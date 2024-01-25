@@ -4,6 +4,9 @@ const admin = require('firebase-admin');
 const path = require('path');
 const fs = require('fs');
 
+// Importe o arquivo serviceAccount
+const serviceAccount = require('./arenatest-407913-firebase-adminsdk-z5m0o-9ff59aa7cf.json');
+
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
   databaseURL: "https://arenatest-407913-default-rtdb.firebaseio.com"
