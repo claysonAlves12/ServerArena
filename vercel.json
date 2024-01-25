@@ -23,6 +23,10 @@
     }
   ],
   "routes": [
+     {
+      "src": "/public/(.*)",
+      "dest": "/src/public/$1"
+    },
     {
       "src": "/.*",
       "dest": "/server.js"
