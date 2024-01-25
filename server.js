@@ -3,64 +3,29 @@ const app = express();
 const path = require('path');
 const fs = require('fs');
 const bodyParser = require('body-parser');
-const session = require('express-session');
-const http = require('http');
 const bcrypt = require('bcrypt');
-const flash = require('connect-flash');
-const server = http.createServer(app);
-const io = require('socket.io')(server);
-const methodOverride = require('method-override');
-app.use(methodOverride('_method'));
-
 const admin = require('firebase-admin');
-const serviceAccount = require('./arenatest-407913-firebase-adminsdk-z5m0o-9ff59aa7cf.json'); 
+const flash = require('connect-flash');
+
+const serviceAccount = require('./arenatest-407913-firebase-adminsdk-z5m0o-9ff59aa7cf.json');
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+  databaseURL: "https://arenatest-407913-default-rtdb.firebaseio.com"
+});
 
 app.set('views', path.join(__dirname, 'src/views'));
 app.set('view engine', 'ejs');
 
 app.use(express.static(path.join(__dirname, 'src/public')));
-
 app.use(bodyParser.urlencoded({ extended: true }));
-
 app.use(express.json());
 
-app.use(session({
-  secret: 'secretpass',
-  resave: true,
-  saveUninitialized: true
-}));
-
 app.use(flash());
-
-// Configurando a lógica para conexões WebSocket
-io.of('/websocket').on('connection', (socket) => {
-  console.log('WebSocket connection established');
-
-  // Lidando com eventos do lado do servidor
-  socket.on('chat message', (message) => {
-    console.log(`Received message: ${message}`);
-
-    // Enviando a mensagem de volta para todos os clientes conectados
-    io.of('/websocket').emit('chat message', message);
-  });
-
-  // Adicione mais lógica para lidar com outros eventos aqui
-
-  // Lidando com desconexão do cliente
-  socket.on('disconnect', () => {
-    console.log('WebSocket connection closed');
-  });
-});
-
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-  databaseURL: "https://arenatest-407913-default-rtdb.firebaseio.com" 
-});
 
 const db = admin.database();
 const formulariosRef = admin.database().ref('formularios');
 
-
+// Mantenha a função para atualizar o cache
 async function atualizarCache() {
   try {
     const pastaImagens = path.join(__dirname, 'src/public/imgs');
@@ -77,16 +42,12 @@ async function atualizarCache() {
     const usuarios = snapshot.val();
     const rows = usuarios ? Object.values(usuarios) : [];
 
-    io.emit('dadosAtualizados', rows);
-
-    // Atualizar o cache com os novos dados, se necessário
-    // Código para atualização do cache...
-
     console.log('Cache atualizado com sucesso.');
   } catch (error) {
     console.error('Erro ao atualizar o cache:', error.message);
   }
 }
+
 
 
 // Rota para a home page
@@ -318,18 +279,6 @@ app.post('/processar-formulario', async (req, res) => {
     res.status(500).json({ success: false, message: 'Erro ao enviar o formulário.' });
   }
 });
-
-//Função de Autenticação
-function ensureAuthenticated(req, res, next) {
-  console.log('Middleware ensureAuthenticated sendo chamado');
-  if (req.session.nomeUsuario) { 
-    console.log('foi');
-    return next(); 
-  } else {
-    console.log('nao foi');
-    res.redirect('/login');
-  }
-}
 
 //Rota para o formulário de cadastro
 app.get('/cadastro',ensureAuthenticated, (req, res) => {
@@ -584,7 +533,4 @@ app.use((req, res) => {
   res.render('404');
 });
 
-const PORT = process.env.PORT || 3000; 
-server.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
+module.exports = app;
