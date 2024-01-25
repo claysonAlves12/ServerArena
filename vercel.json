@@ -6,6 +6,18 @@
       "use": "@vercel/node"
     },
     {
+      "src": "/public/css/(.*)",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "/public/js/(.*)",
+      "use": "@vercel/static"
+    },
+     {
+      "src": "/public/videos/(.*)",
+      "use": "@vercel/static"
+    },
+    {
       "src": "/public/(.*)",
       "use": "@vercel/static"
     }
