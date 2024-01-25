@@ -9,7 +9,6 @@ const bcrypt = require('bcrypt');
 const flash = require('connect-flash');
 const server = http.createServer(app);
 const io = require('socket.io')(server);
-const firebase = require('firebase');
 const methodOverride = require('method-override');
 app.use(methodOverride('_method'));
 
@@ -34,10 +33,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
 
 app.use(session({
-  store: new (require('connect-firebase')(session))({
+  store: new (require('connect-firebase-admin')(session))({
     database: admin.database(),
-    name: 'sessionName', // Substitua pelo nome desejado para o cookie de sessão
-    secret: 'secretpass', // Substitua por uma string secreta forte
+    name: 'sessionName', 
+    secret: 'secretpass', 
   }),
   resave: false,
   saveUninitialized: true,
@@ -45,13 +44,13 @@ app.use(session({
 
 app.use(flash());
 
-// Configurar conexões Socket.IO
 io.on('connection', (socket) => {
 
   socket.on('disconnect', () => {
       
   });
 });
+
 
 // Rota para a home page
 app.get('/', async (req, res) => {
