@@ -1,8 +1,8 @@
 {
   "version": 2,
-   "functions": {
+  "functions": {
     "api": {
-      "/*": ["path/to/your/serverless/function"]
+      "src": "path/to/your/serverless/function"
     }
   },
   "builds": [
