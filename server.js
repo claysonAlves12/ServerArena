@@ -278,16 +278,15 @@ app.post('/processar-formulario', async (req, res) => {
 });
 
 //Função de Autenticação
+// Middleware de Autenticação (ensureAuthenticated)
 function ensureAuthenticated(req, res, next) {
-  console.log('Middleware ensureAuthenticated sendo chamado');
-  if (req.session.nomeUsuario) { 
-    console.log('foi');
-    return next(); 
+  if (req.session.nomeUsuario || req.headers['x-requested-with'] === 'XMLHttpRequest') {
+    return next();
   } else {
-    console.log('nao foi');
     res.redirect('/login');
   }
 }
+
 
 //Rota para o formulário de cadastro
 app.get('/cadastro',ensureAuthenticated, (req, res) => {
