@@ -5,7 +5,7 @@ const ejs = require('ejs');
 
 const dummyData = [
  
-  { nome: 'John Doe', email: 'john@example.com', telefone: '63991029578',  },
+  { nome: 'Jhn Doe', email: 'john@example.com', telefone: '63991029578',  },
 
 ];
 
