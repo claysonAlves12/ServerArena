@@ -4,7 +4,9 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "nodemon server.js",
+    "build": "node build.js"
+
 
   },
   "directories": {
@@ -14,7 +16,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "micro": "^9.3.4",
     "bcrypt": "^5.1.1",
     "connect-flash": "^0.1.1",
     "cookie-parser": "^1.4.6",

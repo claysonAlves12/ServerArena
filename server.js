@@ -32,23 +32,11 @@ app.use(session({
 
 app.use(flash());
 
-// Configurando a lógica para conexões WebSocket
-io.of('/websocket').on('connection', (socket) => {
-  console.log('WebSocket connection established');
+// Configurar conexões Socket.IO
+io.on('connection', (socket) => {
 
-  // Lidando com eventos do lado do servidor
-  socket.on('chat message', (message) => {
-    console.log(`Received message: ${message}`);
-
-    // Enviando a mensagem de volta para todos os clientes conectados
-    io.of('/websocket').emit('chat message', message);
-  });
-
-  // Adicione mais lógica para lidar com outros eventos aqui
-
-  // Lidando com desconexão do cliente
   socket.on('disconnect', () => {
-    console.log('WebSocket connection closed');
+      
   });
 });
 
@@ -60,39 +48,9 @@ admin.initializeApp({
 const db = admin.database();
 const formulariosRef = admin.database().ref('formularios');
 
-
-async function atualizarCache() {
-  try {
-    const pastaImagens = path.join(__dirname, 'src/public/imgs');
-    const listaImagens = fs.readdirSync(pastaImagens).map(imagem => {
-      const nomeSemExtensao = path.parse(imagem).name;
-      return {
-        path: path.join('/imgs/arenaImagens', imagem),
-        nome: nomeSemExtensao
-      };
-    });
-
-    const usuariosRef = admin.database().ref('usuarios');
-    const snapshot = await usuariosRef.once('value');
-    const usuarios = snapshot.val();
-    const rows = usuarios ? Object.values(usuarios) : [];
-
-    io.emit('dadosAtualizados', rows);
-
-    // Atualizar o cache com os novos dados, se necessário
-    // Código para atualização do cache...
-
-    console.log('Cache atualizado com sucesso.');
-  } catch (error) {
-    console.error('Erro ao atualizar o cache:', error.message);
-  }
-}
-
-
 // Rota para a home page
 app.get('/', async (req, res) => {
   try {
-    await atualizarCache();
     const pastaImagens = path.join(__dirname, 'src/public/imgs/arenaImagens');
     const listaImagens = fs.readdirSync(pastaImagens).map(imagem => {
       const nomeSemExtensao = path.parse(imagem).name;
