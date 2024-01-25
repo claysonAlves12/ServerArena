@@ -2,6 +2,7 @@ const { send } = require('micro');
 const admin = require('firebase-admin');
 const path = require('path');
 const fs = require('fs');
+const ejs = require('ejs');
 
 // Importe o arquivo serviceAccount
 const serviceAccount = require('./arenatest-407913-firebase-adminsdk-z5m0o-9ff59aa7cf.json');
