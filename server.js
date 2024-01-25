@@ -32,11 +32,23 @@ app.use(session({
 
 app.use(flash());
 
-// Configurar conexões Socket.IO
-io.on('connection', (socket) => {
+// Configurando a lógica para conexões WebSocket
+io.of('/websocket').on('connection', (socket) => {
+  console.log('WebSocket connection established');
 
+  // Lidando com eventos do lado do servidor
+  socket.on('chat message', (message) => {
+    console.log(`Received message: ${message}`);
+
+    // Enviando a mensagem de volta para todos os clientes conectados
+    io.of('/websocket').emit('chat message', message);
+  });
+
+  // Adicione mais lógica para lidar com outros eventos aqui
+
+  // Lidando com desconexão do cliente
   socket.on('disconnect', () => {
-      
+    console.log('WebSocket connection closed');
   });
 });
 
