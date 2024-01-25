@@ -25,9 +25,13 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
 
 app.use(session({
-  secret: 'secretpass',
-  resave: true,
-  saveUninitialized: true
+  store: new (require('connect-firebase')(session))({
+    database: admin.database(),
+    name: 'sessionName', // Substitua pelo nome desejado para o cookie de sessão
+    secret: 'secretpass', // Substitua por uma string secreta forte
+  }),
+  resave: false,
+  saveUninitialized: true,
 }));
 
 app.use(flash());
