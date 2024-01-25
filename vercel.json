@@ -14,7 +14,12 @@
       "use": "@vercel/static"
     }
   ],
-  "routes": [
+"routes": [
+    {
+      "src": "/cadastro",
+      "dest": "/cadastro.js",
+      "prerender": false
+    },
     {
       "src": "/.*",
       "dest": "/server.js"
