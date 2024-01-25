@@ -65,5 +65,3 @@ module.exports = async (req, res) => {
     send(res, 404, 'Rota não encontrada');
   }
 };
-
-module.exports = app;
