@@ -19,7 +19,7 @@ const atualizarCache = async () => {
     const listaImagens = fs.readdirSync(pastaImagens).map(imagem => {
       const nomeSemExtensao = path.parse(imagem).name;
       return {
-        path: path.join('/imgs/arenaImagens', imagem),
+        path: path.join('/imgs', imagem),
         nome: nomeSemExtensao
       };
     });
@@ -49,7 +49,7 @@ module.exports = async (req, res) => {
           const listaImagens = fs.readdirSync(pastaImagens).map(imagem => {
             const nomeSemExtensao = path.parse(imagem).name;
             return {
-              path: path.join('/imgs/arenaImagens', imagem),
+              path: path.join('/imgs', imagem),
               nome: nomeSemExtensao
             };
           });
