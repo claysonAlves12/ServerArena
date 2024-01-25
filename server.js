@@ -41,40 +41,6 @@ const atualizarCache = async () => {
   }
 };
 
-module.exports = async (req, res) => {
-  if (req.method === 'GET' && req.url === '/') {
-    try {
-      await atualizarCache();
-      const pastaImagens = path.join(__dirname, 'src/public/imgs/arenaImagens');
-      const listaImagens = fs.readdirSync(pastaImagens).map(imagem => {
-        const nomeSemExtensao = path.parse(imagem).name;
-        return {
-          path: path.join('/imgs/arenaImagens', imagem),
-          nome: nomeSemExtensao
-        };
-      });
-
-      const usuariosRef = admin.database().ref('usuarios');
-      const snapshot = await usuariosRef.once('value');
-      const usuarios = snapshot.val();
-      const rows = usuarios ? Object.values(usuarios) : [];
-
-      // Comente a linha abaixo para evitar emitir eventos Socket.IO em contexto serverless
-      // io.emit('dadosAtualizados', rows);
-
-      // Envie uma resposta HTTP usando a função send do micro
-      send(res, 200, { usuarios: rows, user: req.user, imagens: listaImagens });
-
-    } catch (error) {
-      console.error(error.message);
-      // Envie uma resposta de erro usando a função send do micro
-      send(res, 500, 'Erro interno no servidor');
-    }
-  } else {
-    // Envie uma resposta de erro para todas as outras rotas não suportadas
-    send(res, 404, 'Rota não encontrada');
-  }
-};
 
 app.get('/', async (req, res) => {
   try {
