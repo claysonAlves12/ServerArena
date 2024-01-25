@@ -319,13 +319,14 @@ function ensureAuthenticated(req, res, next) {
   }
 }
 
+
 //Rota para o formulário de cadastro
-app.get('/cadastro' (req, res) => {
+app.get('/cadastro',ensureAuthenticated, (req, res) => {
   res.render('cadastro', { message: req.flash('error') });
 });
 
 //Cadastrar usuario
-app.post('/cadastro' async (req, res) => {
+app.post('/cadastro',ensureAuthenticated, async (req, res) => {
   const nome = req.body.nome;
   const email = req.body.email;
   const senha = req.body.senha;
@@ -349,11 +350,6 @@ app.post('/cadastro' async (req, res) => {
     console.error(error.message);
     return res.status(500).send('Erro interno no servidor.');
   }
-});
-
-// Rota para a página de login
-app.get('/login', (req, res) => {
-  res.render('login', { message: req.flash('error') });
 });
 
 //logar usuario
