@@ -281,7 +281,7 @@ app.post('/processar-formulario', async (req, res) => {
 });
 
 //Rota para o formulário de cadastro
-app.get('/cadastro',ensureAuthenticated, (req, res) => {
+app.get('/cadastro', (req, res) => {
   res.render('cadastro', { message: req.flash('error') });
 });
 
