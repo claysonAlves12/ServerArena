@@ -286,7 +286,7 @@ app.get('/cadastro',ensureAuthenticated, (req, res) => {
 });
 
 //Cadastrar usuario
-app.post('/cadastro',ensureAuthenticated, async (req, res) => {
+app.post('/cadastro', async (req, res) => {
   const nome = req.body.nome;
   const email = req.body.email;
   const senha = req.body.senha;
@@ -349,7 +349,7 @@ app.post('/login', async (req, res) => {
 });
 
 // Rota para exibir formulários enviados
-app.get('/reservado', ensureAuthenticated, async (req, res) => {
+app.get('/reservado', async (req, res) => {
   
   const nomeUsuario = req.session.nomeUsuario || "Nome do Usuário";
 
@@ -368,7 +368,7 @@ app.get('/reservado', ensureAuthenticated, async (req, res) => {
 });
 
 // Rota para excluir um formulário com base no ID
-app.delete('/deletar-formulario/:id',ensureAuthenticated, async (req, res) => {
+app.delete('/deletar-formulario/:id', async (req, res) => {
   const formularioId = req.params.id;
 
   try {
@@ -387,7 +387,7 @@ app.delete('/deletar-formulario/:id',ensureAuthenticated, async (req, res) => {
 });
 
 // Rota para atualizar o status id
-app.put('/atualizar-status/:id',ensureAuthenticated, async (req, res) => {
+app.put('/atualizar-status/:id', async (req, res) => {
   const id = req.params.id;
   const novoStatus = req.body.status;
 
@@ -418,7 +418,7 @@ app.put('/atualizar-status/:id',ensureAuthenticated, async (req, res) => {
 });
 
 // Rota do status id
-app.get('/status/:id',ensureAuthenticated, async (req, res) => {
+app.get('/status/:id',async (req, res) => {
   const id = req.params.id;
 
   try {
@@ -437,7 +437,7 @@ app.get('/status/:id',ensureAuthenticated, async (req, res) => {
 });
 
 // Rota para exibir a página de proibir horários
-app.get('/proibir',ensureAuthenticated, async (req, res) => {
+app.get('/proibir', async (req, res) => {
   try {
     const snapshot = await admin.database().ref('horariosProibidos').once('value');
     const horariosProibidosObj = snapshot.val() || {};
@@ -456,7 +456,7 @@ app.get('/proibir',ensureAuthenticated, async (req, res) => {
 });
 
 //rota para add horarios proibidos
-app.post('/proibir-horarios',ensureAuthenticated, async (req, res) => {
+app.post('/proibir-horarios', async (req, res) => {
   const { data, horaInicial, horaFinal, descricao } = req.body;
 
   try {
@@ -502,7 +502,7 @@ app.post('/proibir-horarios',ensureAuthenticated, async (req, res) => {
 });
 
 //rota para excluir horarios proibidos
-app.post('/excluir-horario',ensureAuthenticated, async (req, res) => {
+app.post('/excluir-horario', async (req, res) => {
   const horarioId = req.body.horarioId;
   try {
 
