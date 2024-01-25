@@ -9,7 +9,6 @@ const bcrypt = require('bcrypt');
 const flash = require('connect-flash');
 const server = http.createServer(app);
 const io = require('socket.io')(server);
-const firebase = require('firebase');
 const methodOverride = require('method-override');
 app.use(methodOverride('_method'));
 
