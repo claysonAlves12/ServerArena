@@ -1,29 +1,24 @@
 {
   "version": 2,
+  "functions": {
+    "api": {
+      "handler": "server.js"
+    },
+    "websocket": {
+      "allowConfig": true,
+      "dest": "websocket.js"
+    }
+  },
   "builds": [
     {
-      "src": "server.js",
-      "use": "@vercel/node"
-    },
-    {
-      "src": "/public/(.*)",
-      "use": "@vercel/static"
-    },
-    {
-      "src": "/styles/(.*)",
+      "src": "public/**/*",
       "use": "@vercel/static"
     }
   ],
   "routes": [
     {
-      "src": "/.*",
+      "src": "/(.*)",
       "dest": "/server.js"
     }
-  ],
-  "functions": {
-    "api/websocket": {
-      "handler": "server.js"
-    }
-  }
+  ]
 }
-
