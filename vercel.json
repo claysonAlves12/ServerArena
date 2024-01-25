@@ -1,14 +1,10 @@
 {
   "version": 2,
   "functions": {
-    "api": {
-      "runtime": "node@14",
-      "handler": "server.js"
-    },
+    "api": "server.js",  
     "websocket": {
-      "runtime": "node@14",
-      "allowConfig": true,
-      "dest": "websocket.js"
+      "handler": "websocket.js",  
+      "allowConfig": true
     }
   },
   "builds": [
