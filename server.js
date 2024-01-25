@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express();
-const path = require('path'); // Add this line
+const path = require('path');
 const fs = require('fs');
 const bodyParser = require('body-parser');
 const session = require('express-session');
@@ -15,14 +15,6 @@ app.use(methodOverride('_method'));
 const admin = require('firebase-admin');
 const serviceAccount = require('./arenatest-407913-firebase-adminsdk-z5m0o-9ff59aa7cf.json'); 
 
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-  databaseURL: "https://arenatest-407913-default-rtdb.firebaseio.com" 
-});
-
-const db = admin.database();
-const formulariosRef = admin.database().ref('formularios');
-
 app.set('views', path.join(__dirname, 'src/views'));
 app.set('view engine', 'ejs');
 
@@ -32,9 +24,15 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(express.json());
 
+app.use(session({
+  secret: 'secretpass',
+  resave: true,
+  saveUninitialized: true
+}));
 
 app.use(flash());
 
+// Configurar conexões Socket.IO
 io.on('connection', (socket) => {
 
   socket.on('disconnect', () => {
@@ -42,6 +40,13 @@ io.on('connection', (socket) => {
   });
 });
 
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+  databaseURL: "https://arenatest-407913-default-rtdb.firebaseio.com" 
+});
+
+const db = admin.database();
+const formulariosRef = admin.database().ref('formularios');
 
 // Rota para a home page
 app.get('/', async (req, res) => {
@@ -273,15 +278,16 @@ app.post('/processar-formulario', async (req, res) => {
 });
 
 //Função de Autenticação
-// Middleware de Autenticação (ensureAuthenticated)
 function ensureAuthenticated(req, res, next) {
-  if (req.session.nomeUsuario || req.headers['x-requested-with'] === 'XMLHttpRequest') {
-    return next();
+  console.log('Middleware ensureAuthenticated sendo chamado');
+  if (req.session.nomeUsuario) { 
+    console.log('foi');
+    return next(); 
   } else {
+    console.log('nao foi');
     res.redirect('/login');
   }
 }
-
 
 //Rota para o formulário de cadastro
 app.get('/cadastro',ensureAuthenticated, (req, res) => {
