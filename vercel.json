@@ -6,39 +6,11 @@
       "use": "@vercel/node"
     },
     {
-      "src": "/public/css/(.*)",
-      "use": "@vercel/static"
-    },
-    {
-      "src": "/public/js/(.*)",
-      "use": "@vercel/static"
-    },
-     {
-      "src": "/public/videos/(.*)",
-      "use": "@vercel/static"
-    },
-    {
       "src": "/public/(.*)",
       "use": "@vercel/static"
     }
   ],
   "routes": [
-    {
-      "src": "/public/css/(.*)",
-      "dest": "/src/public/css/$1"
-    },
-    {
-      "src": "/public/js/(.*)",
-      "dest": "/src/public/js/$1"
-    },
-    {
-      "src": "/public/videos/(.*)",
-      "dest": "/src/public/videos/$1"
-    },
-    {
-      "src": "/public/(.*)",
-      "dest": "/src/public/$1"
-    },
     {
       "src": "/.*",
       "dest": "/server.js"
