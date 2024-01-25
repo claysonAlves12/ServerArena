@@ -76,6 +76,35 @@ module.exports = async (req, res) => {
   }
 };
 
+app.get('/', async (req, res) => {
+  try {
+    await atualizarCache();
+    const pastaImagens = path.join(__dirname, 'src/public/imgs/arenaImagens');
+    const listaImagens = fs.readdirSync(pastaImagens).map(imagem => {
+      const nomeSemExtensao = path.parse(imagem).name;
+      return {
+        path: path.join('/imgs/arenaImagens', imagem),
+        nome: nomeSemExtensao
+      };
+    });
+
+    const usuariosRef = admin.database().ref('usuarios');
+
+    const snapshot = await usuariosRef.once('value');
+    const usuarios = snapshot.val();
+
+    const rows = usuarios ? Object.values(usuarios) : [];
+
+    io.emit('dadosAtualizados', rows);
+
+    res.render('index', { usuarios: rows, user: req.user, imagens: listaImagens });
+
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).send('Erro interno no servidor');
+  }
+});
+
 //Rota para consultar os dados (formularios)
 app.post('/consultar-dados', async (req, res) => {
   try {
