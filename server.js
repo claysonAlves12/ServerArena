@@ -32,15 +32,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(express.json());
 
-app.use(session({
-  store: new (require('connect-firebase-admin')(session))({
-    database: admin.database(),
-    name: 'sessionName', 
-    secret: 'secretpass', 
-  }),
-  resave: false,
-  saveUninitialized: true,
-}));
 
 app.use(flash());
 
